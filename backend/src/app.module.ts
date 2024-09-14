@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
-import { User } from './users/user.entity';  // Importe a entidade User
+import { User } from './users/user.entity';  //Importa a entidade User
 
 @Module({
   imports: [
