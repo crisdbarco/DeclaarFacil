@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatCardModule} from '@angular/material/card';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatSlideToggleModule, MatCardModule, MatFormFieldModule],
+  imports: [MatFormFieldModule, MatInputModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {}
-export class CardOverviewExample {}
-
