@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     // outros componentes...
   ],
-  imports: [
+  imports: [ ReactiveFormsModule,
     // outros módulos...
     FormsModule, // Necessário para [(ngModel)]
     ReactiveFormsModule

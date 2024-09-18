@@ -1,26 +1,18 @@
 <main>
     <h1>Acesso ao sistema</h1>
-    <form (ngSubmit)="onSubmit()" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
       <mat-form-field appearance="fill">
-        <mat-label>Login</mat-label>
-        <input
-          matInput
-          formControlName="email"
-          type="email"
-          placeholder="Insira seu e-mail"
-        />
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Insira seu e-mail" autocomplete="off">
       </mat-form-field>
+      
       <mat-form-field appearance="fill">
         <mat-label>Senha</mat-label>
-        <input
-          matInput
-          formControlName="password"
-          type="password"
-          placeholder="Insira sua senha"
-        />
+        <input matInput formControlName="password" type="password" placeholder="Insira sua senha" autocomplete="off">
       </mat-form-field>
+      
       <button mat-raised-button color="primary" type="submit">Entrar</button>
-      <p>Para lembrar sua senha senha, <a href="#">clique aqui.</a></p>
+      <p>Para lembrar sua senha, <a href="#">clique aqui.</a></p>
       <p>Se você ainda não está cadastrado, <a href="#">clique aqui.</a></p>
     </form>
   </main>

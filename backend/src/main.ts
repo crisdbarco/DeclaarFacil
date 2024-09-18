@@ -8,6 +8,13 @@ import { Reflector } from '@nestjs/core';  // Import correto do Reflector
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+    // Habilitar CORS
+    app.enableCors({
+      origin: 'http://localhost:4200', // Permitir apenas requisições desse domínio
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
+      credentials: true, // Permitir cookies, se necessário
+    });
+
   const config = new DocumentBuilder()
     .setTitle('Declara Fácil')
     .setDescription('The Declara Facil API description')
