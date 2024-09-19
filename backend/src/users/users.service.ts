@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
-import { CreateUserDto } from './dto/create-user.dto';  // Certifique-se de ter o DTO configurado
+import { CreateUserDto } from './dto/create-user.dto'; // Certifique-se de ter o DTO configurado
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class UsersService {
   }
 
   async findOne(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({where: {email: email}});
+    return this.usersRepository.findOne({ where: { email: email } });
   }
   // Outros métodos...
 }

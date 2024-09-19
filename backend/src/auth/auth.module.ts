@@ -8,7 +8,6 @@ import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SetMetadata } from '@nestjs/common';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(), // Adiciona ConfigModule para carregar variáveis de ambiente
@@ -16,7 +15,9 @@ import { SetMetadata } from '@nestjs/common';
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService): Promise<JwtModuleOptions> => ({
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<JwtModuleOptions> => ({
         secret: configService.get<string>('JWT_SECRET') || 'default-secret-key',
         signOptions: { expiresIn: '1h' },
       }),
@@ -24,7 +25,7 @@ import { SetMetadata } from '@nestjs/common';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy,],
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}
 export const IS_PUBLIC_KEY = 'isPublic';

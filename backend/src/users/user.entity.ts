@@ -1,6 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity('users')  // Tabela 'users' no banco de dados
+@Entity('users') // Tabela 'users' no banco de dados
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

@@ -7,7 +7,7 @@ import { Public } from './public.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Public() // Esta rota será pública, sem necessidade de autenticação
-  @Post('login')  // Mapeia o método POST para /auth/login
+  @Post('login') // Mapeia o método POST para /auth/login
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
