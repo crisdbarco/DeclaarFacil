@@ -15,4 +15,7 @@
       <p>Para lembrar sua senha, <a href="#">clique aqui.</a></p>
       <p>Se você ainda não está cadastrado, <a href="#">clique aqui.</a></p>
     </form>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
   </main>
