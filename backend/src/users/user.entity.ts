@@ -8,7 +8,7 @@ import {
 
 @Entity('users') // Tabela 'users' no banco de dados
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ length: 100 })
@@ -23,7 +23,7 @@ export class User {
   @Column({ unique: true, length: 12 })
   rg: string;
 
-  @Column({ length: 20 })
+  @Column({ length: 200 })
   issuing_agency: string;
 
   @Column({ length: 8 })
