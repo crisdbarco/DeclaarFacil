@@ -16,6 +16,7 @@ async function bootstrap() {
     .setTitle('Declara Fácil')
     .setDescription('The Declara Facil API description')
     .setVersion('1.0')
+    .addTag('auth')
     .addTag('users')
     .build();
 
