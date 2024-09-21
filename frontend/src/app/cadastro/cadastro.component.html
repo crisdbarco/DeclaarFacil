@@ -1,0 +1,192 @@
+<form class="example-form">
+  <mat-toolbar>
+    <div class="container">
+      <div class="title">
+        <div>Cadastro de novo(a) Cliente</div>
+      </div>
+    </div>
+  </mat-toolbar>
+</form>
+
+<div class="user-create-container">
+  <form class="user-form" (ngSubmit)="onSubmit()" [formGroup]="userForm">
+    <div class="form-row">
+      <!-- Nome -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Nome</mat-label>
+        <input matInput placeholder="Digite seu nome" formControlName="name" />
+        <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Digite seu email"
+          formControlName="email"
+        />
+        <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+          Digite um email válido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- CPF -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>CPF</mat-label>
+        <input matInput placeholder="Digite seu CPF" formControlName="cpf" />
+        <mat-error *ngIf="userForm.get('cpf')?.hasError('required')">
+          CPF é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <!-- RG -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>RG</mat-label>
+        <input matInput placeholder="Digite seu RG" formControlName="rg" />
+        <mat-error *ngIf="userForm.get('rg')?.hasError('required')">
+          RG é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Órgão Expedidor -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Órgão Expedidor</mat-label>
+        <input
+          matInput
+          placeholder="Digite o órgão expedidor"
+          formControlName="orgaoExpedidor"
+        />
+      </mat-form-field>
+
+      <!-- SSP -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>SSP</mat-label>
+        <input matInput placeholder="Digite o SSP" formControlName="ssp" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- CEP -->
+      <mat-form-field appearance="fill" class="form-field cep-field">
+        <mat-label>Código de Endereçamento Postal (CEP)</mat-label>
+        <input matInput placeholder="Digite seu CEP" formControlName="cep" />
+        <mat-error *ngIf="userForm.get('cep')?.hasError('required')">
+          CEP é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Botão de Busca à direita -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="buscar-button"
+        (click)="buscarEndereco()"
+      >
+        Buscar
+      </button>
+    </div>
+
+    <div class="form-row">
+      <!-- Logradouro -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Logradouro</mat-label>
+        <input
+          matInput
+          placeholder="Digite seu logradouro"
+          formControlName="logradouro"
+        />
+      </mat-form-field>
+
+      <!-- Número -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Número</mat-label>
+        <input
+          matInput
+          placeholder="Digite o número"
+          formControlName="numero"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Complemento -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Complemento</mat-label>
+        <input
+          matInput
+          placeholder="Digite o complemento"
+          formControlName="complemento"
+        />
+      </mat-form-field>
+
+      <!-- Bairro -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Bairro</mat-label>
+        <input
+          matInput
+          placeholder="Digite seu bairro"
+          formControlName="bairro"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Cidade -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Cidade</mat-label>
+        <input
+          matInput
+          placeholder="Digite sua cidade"
+          formControlName="cidade"
+        />
+      </mat-form-field>
+
+      <!-- UF (Estado) -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>UF</mat-label>
+        <mat-select formControlName="uf">
+          <mat-option *ngFor="let estado of estados" [value]="estado.sigla">
+            {{ estado.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.get('uf')?.hasError('required')">
+          UF é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <!-- Senha -->
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="Digite sua senha"
+          formControlName="password"
+        />
+        <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+          A senha deve ter no mínimo 6 caracteres
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="userForm.invalid"
+      >
+        Criar Usuário
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,14 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity('users') // Tabela 'users' no banco de dados
+@Entity('users')  // Tabela 'users' no banco de dados
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 100 })
@@ -23,7 +17,7 @@ export class User {
   @Column({ unique: true, length: 12 })
   rg: string;
 
-  @Column({ length: 200 })
+  @Column({ length: 20 })
   issuing_agency: string;
 
   @Column({ length: 8 })

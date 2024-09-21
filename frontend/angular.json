@@ -30,7 +30,12 @@
               "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -96,6 +101,6 @@
     }
   },
   "cli": {
-    "analytics": "7670fe9a-9930-40ea-8863-a2da81ee77c5"
+    "analytics": "7f5fda8b-7c62-43eb-bfbc-5a2ef2eb338b"
   }
 }

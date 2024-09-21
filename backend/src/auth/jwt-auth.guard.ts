@@ -1,19 +1,12 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  UnauthorizedException,
-} from '@nestjs/common';
+
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from './public.decorator';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(
-    private reflector: Reflector,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private reflector: Reflector, private jwtService: JwtService) {}
 
   canActivate(context: ExecutionContext): boolean {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -23,23 +16,21 @@ export class JwtAuthGuard implements CanActivate {
     if (isPublic) {
       return true; // Permite acesso à rota pública
     }
-
+    
     // Código para verificar se o token JWT é válido
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.split(' ')[1];
 
     if (!token) {
-      throw new UnauthorizedException();
+      return false; // Bloqueia se o token não estiver presente
     }
 
     try {
-      const decoded = this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET,
-      });
+      const decoded = this.jwtService.verify(token);
       request.user = decoded;
       return true; // Permite acesso se o token for válido
-    } catch {
-      throw new UnauthorizedException();
+    } catch (err) {
+      return false; // Bloqueia se o token for inválido
     }
   }
 }
