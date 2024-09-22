@@ -3,14 +3,27 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import axios from 'axios';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatButtonModule,
+    RouterLink,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
@@ -19,7 +32,11 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private router: Router, private cdr: ChangeDetectorRef) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -45,18 +62,19 @@ export class LoginComponent {
         } else {
           // Se o token não for recebido, mostra a mensagem de erro
           this.errorMessage = 'Falha no login, token não recebido';
-          this.cdr.detectChanges();  // Força a detecção de mudanças
+          this.cdr.detectChanges(); // Força a detecção de mudanças
         }
       } catch (error) {
         // Exibe a mensagem de erro se houver falha na requisição
-        this.errorMessage = 'Não foi possível acessar a sua conta, tente novamente.';
-        this.cdr.detectChanges();  // Força a detecção de mudanças
+        this.errorMessage =
+          'Não foi possível acessar a sua conta, tente novamente.';
+        this.cdr.detectChanges(); // Força a detecção de mudanças
         console.error('Erro ao fazer login:', error);
       }
     } else {
       // Se o formulário for inválido, exibe a mensagem de erro imediatamente
       this.errorMessage = 'Formulário inválido. Verifique as credenciais.';
-      this.cdr.detectChanges();  // Força a detecção de mudanças
+      this.cdr.detectChanges(); // Força a detecção de mudanças
     }
   }
 }
