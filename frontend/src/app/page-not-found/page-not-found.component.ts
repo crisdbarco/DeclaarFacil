@@ -1,11 +1,12 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-page-not-found',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule],
+  imports: [NgOptimizedImage, MatButtonModule, RouterLink],
   templateUrl: './page-not-found.component.html',
   styleUrl: './page-not-found.component.css',
 })

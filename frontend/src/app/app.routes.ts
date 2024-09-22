@@ -9,13 +9,16 @@ export const routes: Routes = [
     path: '',
     component: HomeComponent,
     canActivate: [AuthGuard],
+    title: 'Declara Fácil',
   },
   {
     path: 'login',
     component: LoginComponent,
+    title: 'Declara Fácil - Login',
   },
   {
     path: '**',
     component: PageNotFoundComponent,
+    title: 'Declara Fácil - Página não encontrada',
   },
 ];
