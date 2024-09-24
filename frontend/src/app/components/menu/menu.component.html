@@ -1,12 +1,22 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-nav-list>
-      <mat-list-item>
-        <a mat-line [routerLink]="['/home']">Página Home</a>
+
+      <!-- Verifica se é admin para exibir "Solicitações", caso contrário, "Meus pedidos" -->
+      <mat-list-item *ngIf="isAdmin; else clientOrders">
+        <a mat-line [routerLink]="['/solicitacoes']">Solicitações</a>
       </mat-list-item>
 
+      <ng-template #clientOrders>
+        <mat-list-item>
+          <a mat-line [routerLink]="['/meus-pedidos']">Meus pedidos</a>
+        </mat-list-item>
+      </ng-template>
+
       <!-- Declarações -->
-      <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" (opened)="toggleMenu('declaracoes')" (closed)="toggleMenu(null)">
+      <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" 
+                           (opened)="toggleMenu('declaracoes')" 
+                           (closed)="toggleMenu(null)">
         <mat-expansion-panel-header>
           <mat-panel-title>Declarações</mat-panel-title>
         </mat-expansion-panel-header>
@@ -16,7 +26,10 @@
       </mat-expansion-panel>
 
       <!-- Administração (visível apenas para admin) -->
-      <mat-expansion-panel *ngIf="isAdmin" [expanded]="currentOpenItem === 'administracao'" (opened)="toggleMenu('administracao')" (closed)="toggleMenu(null)">
+      <mat-expansion-panel *ngIf="isAdmin" 
+                           [expanded]="currentOpenItem === 'administracao'" 
+                           (opened)="toggleMenu('administracao')" 
+                           (closed)="toggleMenu(null)">
         <mat-expansion-panel-header>
           <mat-panel-title>Administração</mat-panel-title>
         </mat-expansion-panel-header>
@@ -24,7 +37,7 @@
           <a mat-line [routerLink]="['/clients']">Clientes</a>
         </mat-list-item>
         <mat-list-item>
-          <a mat-line [routerLink]="['/declarations']">Novas Declarações</a>
+          <a mat-line [routerLink]="['/declarations']">Criar Declaração</a>
         </mat-list-item>
         <mat-list-item>
           <a mat-line [routerLink]="['/users']">Usuários</a>
