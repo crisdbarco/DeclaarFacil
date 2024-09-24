@@ -1,0 +1,44 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened>
+    <mat-nav-list>
+      <mat-list-item>
+        <a mat-line [routerLink]="['/home']">Página Home</a>
+      </mat-list-item>
+
+      <!-- Declarações -->
+      <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" (opened)="toggleMenu('declaracoes')" (closed)="toggleMenu(null)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Declarações</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list-item>
+          <a mat-line [routerLink]="['/address']">Endereço</a>
+        </mat-list-item>
+      </mat-expansion-panel>
+
+      <!-- Administração (visível apenas para admin) -->
+      <mat-expansion-panel *ngIf="isAdmin" [expanded]="currentOpenItem === 'administracao'" (opened)="toggleMenu('administracao')" (closed)="toggleMenu(null)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Administração</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list-item>
+          <a mat-line [routerLink]="['/clients']">Clientes</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a mat-line [routerLink]="['/declarations']">Novas Declarações</a>
+        </mat-list-item>
+        <mat-list-item>
+          <a mat-line [routerLink]="['/users']">Usuários</a>
+        </mat-list-item>
+      </mat-expansion-panel>
+
+      <!-- Logout -->
+      <mat-list-item>
+        <a mat-line (click)="logout()">Sair</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

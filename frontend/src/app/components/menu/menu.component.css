@@ -1,0 +1,22 @@
+.sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+mat-list-item a {
+  text-decoration: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+mat-list-item a:hover {
+  background-color: #f0f0f0;
+  text-decoration: underline;
+}

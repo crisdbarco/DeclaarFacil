@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './components/meus-pedidos/meus-pedidos.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NgOptimizedImage } from '@angular/common';
 import { routes } from './app.routes';
@@ -14,7 +14,7 @@ import { routes } from './app.routes';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    // outros componentes...
+    // Não precisa declarar MenuComponent, pois ele é standalone
   ],
   imports: [
     BrowserModule,
