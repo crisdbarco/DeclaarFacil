@@ -4,6 +4,7 @@
 
       <!-- Verifica se é admin para exibir "Solicitações", caso contrário, "Meus pedidos" -->
       <mat-list-item *ngIf="isAdmin; else clientOrders">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
         <a mat-line [routerLink]="['/solicitacoes']">Solicitações</a>
       </mat-list-item>
 
@@ -18,6 +19,7 @@
                            (opened)="toggleMenu('declaracoes')" 
                            (closed)="toggleMenu(null)">
         <mat-expansion-panel-header>
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit_document"></mat-icon>
           <mat-panel-title>Declarações</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list-item>
@@ -31,6 +33,7 @@
                            (opened)="toggleMenu('administracao')" 
                            (closed)="toggleMenu(null)">
         <mat-expansion-panel-header>
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="settings"></mat-icon>
           <mat-panel-title>Administração</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list-item>

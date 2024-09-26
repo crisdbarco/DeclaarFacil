@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-menu',
@@ -19,6 +20,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSidenavModule,
     MatListModule,
     MatExpansionModule,
+    MatIconModule,
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],

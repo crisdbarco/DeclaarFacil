@@ -3,17 +3,27 @@
 }
 
 mat-sidenav {
-  width: 250px;
+  width: 300px;
+  background-color: #f0f0f0;
+  border-radius: 0px;
 }
 
 mat-nav-list {
   padding: 0;
+  border-radius: 0px;
 }
+
+mat-expansion-panel {
+  background-color: #f0f0f0;
+  border-radius: 0px;
+}
+
 
 mat-list-item a {
   text-decoration: none;
   color: #007bff;
   cursor: pointer;
+  color: black;
 }
 
 mat-list-item a:hover {
