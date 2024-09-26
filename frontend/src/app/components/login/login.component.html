@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <main>
     <h1>Acesso ao sistema</h1>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
@@ -19,3 +20,38 @@
       {{ errorMessage }}
     </div>
   </main>
+=======
+<main class="login-group">
+  <h1>Acesso ao sistema</h1>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        placeholder="Insira seu e-mail"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Insira sua senha"
+        autocomplete="off"
+      />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit">Entrar</button>
+  </form>
+  <p>Para lembrar sua senha, <a routerLink="/">clique aqui.</a></p>
+  <p>Se você ainda não está cadastrado, <a routerLink="/register">clique aqui.</a></p>
+</main>
+>>>>>>> Stashed changes
