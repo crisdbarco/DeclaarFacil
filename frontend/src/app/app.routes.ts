@@ -7,6 +7,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { UsersComponent } from './components/users/users.component';
 import { OtherDeclarationsComponent } from './components/other-declarations/other-declarations.component'; // Importe o componente
 import { SolicitacoesComponent } from './components/solicitacoes/solicitacoes.component';
+import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -20,6 +21,11 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Declara Fácil - Login',
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    title: 'Declara Fácil - Criar conta',
   },
   {
     path: 'declarations', // Se você quiser que este seja um link direto
