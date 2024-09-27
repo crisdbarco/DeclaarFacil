@@ -1,3 +1,4 @@
+<app-header></app-header>
 <main class="login-group">
   <h1>Acesso ao sistema</h1>
   <div *ngIf="errorMessage" class="error-message">
@@ -29,5 +30,8 @@
     <button mat-flat-button color="primary" type="submit">Entrar</button>
   </form>
   <p>Para lembrar sua senha, <a routerLink="/">clique aqui.</a></p>
-  <p>Se você ainda não está cadastrado, <a routerLink="/register">clique aqui.</a></p>
+  <p>
+    Se você ainda não está cadastrado,
+    <a routerLink="/register">clique aqui.</a>
+  </p>
 </main>

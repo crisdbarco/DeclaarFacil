@@ -1,0 +1,46 @@
+.register-group {
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens sejam quebrados em várias linhas */
+    justify-content: center; /* Centraliza os itens */
+
+    .form-field {
+      margin-right: 20px;
+      min-width: 300px; /* Largura mínima para os campos */
+      margin-bottom: 12px;
+      flex: 1 1 45%; /* Permite que os campos ocupem até 45% do espaço, com flexibilidade */
+      max-width: 700px; /* Limita a largura máxima dos campos */
+    }
+
+    button {
+      max-width: 50px;
+      border-radius: 10px;
+      margin: 100%;
+      min-width: 150px;
+      margin-top: 24px; /* Margem superior para separá-lo dos campos acima */
+      flex-basis: 100%; /* Faz o botão ocupar a linha inteira */
+    }
+  }
+
+  a {
+    color: var(--sys-primary);
+  }
+
+  .error-message {
+    color: var(--sys-error);
+    background-color: var(--sys-error-container);
+    border: 1px solid var(--sys-error);
+    border-radius: 8px;
+    padding: 12px;
+    max-width: 420px;
+    margin: 0 auto 24px;
+  }
+}
