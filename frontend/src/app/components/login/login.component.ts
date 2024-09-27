@@ -12,6 +12,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -33,6 +35,7 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
+    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
     private cdr: ChangeDetectorRef
@@ -51,14 +54,20 @@ export class LoginComponent {
           email: this.loginForm.value.email,
           password: this.loginForm.value.password,
         });
-
+  
         // Verifica se o token foi retornado
         if (response.data && response.data.access_token) {
           console.log('Login bem-sucedido! Token:', response.data.access_token);
-          // Salva o token no localStorage
-          localStorage.setItem('token', response.data.access_token);
-          // Redireciona para a página principal
-          this.router.navigate(['/home']);
+          
+          // Usa o AuthService para armazenar o token
+          this.authService.saveToken(response.data.access_token);
+  
+          // Verifica se o usuário é admin ou comum e redireciona para a página correta
+          if (this.authService.isAdmin()) {
+            this.router.navigate(['/solicitacoes']); // Admin vai para "Solicitações"
+          } else {
+            this.router.navigate(['/meus-pedidos']); // Usuário comum vai para "Meus Pedidos"
+          }
         } else {
           // Se o token não for recebido, mostra a mensagem de erro
           this.errorMessage = 'Falha no login, token não recebido';

@@ -1,7 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-nav-list>
-
       <!-- Verifica se é admin para exibir "Solicitações", caso contrário, "Meus pedidos" -->
       <mat-list-item *ngIf="isAdmin; else clientOrders">
         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
@@ -10,6 +9,7 @@
 
       <ng-template #clientOrders>
         <mat-list-item>
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
           <a mat-line [routerLink]="['/meus-pedidos']">Meus pedidos</a>
         </mat-list-item>
       </ng-template>

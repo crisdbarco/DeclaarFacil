@@ -9,13 +9,20 @@ import { OtherDeclarationsComponent } from './components/other-declarations/othe
 import { SolicitacoesComponent } from './components/solicitacoes/solicitacoes.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { SuccessComponent } from './components/success/success.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: 'meus-pedidos', // Redireciona para meus-pedidos por padrão
+    pathMatch: 'full' // Verifica se o caminho é vazio
+  },
+  {
+    path: 'meus-pedidos', // rota para Meus Pedidos
     component: MeusPedidosComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil',
+    title: 'Declara Fácil - Meus Pedidos',
   },
   {
     path: 'login',
@@ -27,8 +34,9 @@ export const routes: Routes = [
     component: RegisterComponent,
     title: 'Declara Fácil - Criar conta',
   },
+  { path: 'success', component: SuccessComponent },
   {
-    path: 'declarations', // Se você quiser que este seja um link direto
+    path: 'declarations',
     component: DeclarationsComponent,
     canActivate: [AuthGuard],
     title: 'Declara Fácil - Declarações',
@@ -52,19 +60,23 @@ export const routes: Routes = [
     title: 'Declara Fácil - Usuários',
   },
   {
-    path: 'other-declarations', // Rota para o componente de declarações
+    path: 'other-declarations',
     component: OtherDeclarationsComponent,
     canActivate: [AuthGuard],
     title: 'Declara Fácil - Outras Declarações',
   },
   {
-    path: 'solicitacoes', // Adicione a nova rota
+    path: 'solicitacoes',
     component: SolicitacoesComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Solicitações', // Título da rota
+    title: 'Declara Fácil - Solicitações',
   },
   {
     path: '**',
-    redirectTo: '',
+    component: PageNotFoundComponent, // Utilize o componente aqui
+  },
+  {
+    path: '**',
+  component: PageNotFoundComponent, // Redireciona para not-found para qualquer rota não encontrada
   },
 ];

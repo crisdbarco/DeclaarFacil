@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select'; // Import para mat-select
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule, // Adicione o módulo MatSelectModule
     ReactiveFormsModule,
     CommonModule,
   ],
@@ -24,6 +26,9 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
+
+  // Defina as siglas dos estados
+  states: string[] = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
@@ -38,7 +43,7 @@ export class RegisterComponent {
       complement: [''],
       neighborhood: ['', Validators.required],
       city: ['', Validators.required],
-      state: ['', Validators.required],
+      state: ['', Validators.required], // Campo para selecionar estado
       password: ['', [Validators.required, Validators.minLength(6)]],
       is_admin: [false],
     });

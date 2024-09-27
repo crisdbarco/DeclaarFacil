@@ -8,12 +8,14 @@ import { MeusPedidosComponent } from './components/meus-pedidos/meus-pedidos.com
 import { AuthGuard } from './guards/auth.guard';
 import { NgOptimizedImage } from '@angular/common';
 import { routes } from './app.routes';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MeusPedidosComponent,
+    PageNotFoundComponent,
     // Não precisa declarar MenuComponent, pois ele é standalone
   ],
   imports: [
