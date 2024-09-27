@@ -13,7 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
-import { HeaderComponent } from '../shared/components/header/header.component';
+
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,6 @@ import { HeaderComponent } from '../shared/components/header/header.component';
     CommonModule,
     MatButtonModule,
     RouterLink,
-    HeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
@@ -55,14 +54,14 @@ export class LoginComponent {
           email: this.loginForm.value.email,
           password: this.loginForm.value.password,
         });
-
+  
         // Verifica se o token foi retornado
         if (response.data && response.data.access_token) {
           console.log('Login bem-sucedido! Token:', response.data.access_token);
-
+          
           // Usa o AuthService para armazenar o token
           this.authService.saveToken(response.data.access_token);
-
+  
           // Verifica se o usuário é admin ou comum e redireciona para a página correta
           if (this.authService.isAdmin()) {
             this.router.navigate(['/solicitacoes']); // Admin vai para "Solicitações"

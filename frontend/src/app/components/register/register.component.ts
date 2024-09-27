@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../shared/components/header/header.component';
+import { MatSelectModule } from '@angular/material/select'; // Import para mat-select
 
 @Component({
   selector: 'app-register',
@@ -16,9 +16,9 @@ import { HeaderComponent } from '../shared/components/header/header.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule, // Adicione o módulo MatSelectModule
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -26,6 +26,9 @@ import { HeaderComponent } from '../shared/components/header/header.component';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
+
+  // Defina as siglas dos estados
+  states: string[] = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
@@ -40,7 +43,7 @@ export class RegisterComponent {
       complement: [''],
       neighborhood: ['', Validators.required],
       city: ['', Validators.required],
-      state: ['', Validators.required],
+      state: ['', Validators.required], // Campo para selecionar estado
       password: ['', [Validators.required, Validators.minLength(6)]],
       is_admin: [false],
     });
@@ -49,10 +52,7 @@ export class RegisterComponent {
   async onSubmit() {
     if (this.registerForm.valid) {
       try {
-        const response = await axios.post(
-          'http://localhost:3000/users',
-          this.registerForm.value
-        );
+        const response = await axios.post('http://localhost:3000/users', this.registerForm.value);
         this.router.navigate(['/success']); // Redireciona para a página de sucesso
       } catch (error) {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';
