@@ -7,7 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { HeaderComponent } from '../shared/components/header/header.component';
 
 @Component({
   selector: 'app-menu',
@@ -21,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatListModule,
     MatExpansionModule,
     MatIconModule,
+    HeaderComponent,
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
@@ -51,7 +53,10 @@ export class MenuComponent {
     // Define o menu aberto com base na rota atual
     if (currentRoute.includes('/address')) {
       this.currentOpenItem = 'declaracoes';
-    } else if (currentRoute.includes('/clients') || currentRoute.includes('/users')) {
+    } else if (
+      currentRoute.includes('/clients') ||
+      currentRoute.includes('/users')
+    ) {
       this.currentOpenItem = 'administracao';
     } else {
       this.currentOpenItem = null;

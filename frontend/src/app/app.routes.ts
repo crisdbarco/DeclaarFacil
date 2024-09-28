@@ -16,7 +16,7 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'meus-pedidos', // Redireciona para meus-pedidos por padrão
-    pathMatch: 'full' // Verifica se o caminho é vazio
+    pathMatch: 'full', // Verifica se o caminho é vazio
   },
   {
     path: 'meus-pedidos', // rota para Meus Pedidos
@@ -77,6 +77,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-  component: PageNotFoundComponent, // Redireciona para not-found para qualquer rota não encontrada
+    component: PageNotFoundComponent, // Redireciona para not-found para qualquer rota não encontrada
   },
 ];

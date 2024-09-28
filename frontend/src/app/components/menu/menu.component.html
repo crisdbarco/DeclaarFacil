@@ -1,25 +1,40 @@
+<app-header></app-header>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav mode="side" opened>
     <mat-nav-list>
       <!-- Verifica se é admin para exibir "Solicitações", caso contrário, "Meus pedidos" -->
       <mat-list-item *ngIf="isAdmin; else clientOrders">
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="home"
+        ></mat-icon>
         <a mat-line [routerLink]="['/solicitacoes']">Solicitações</a>
       </mat-list-item>
 
       <ng-template #clientOrders>
         <mat-list-item>
-          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="home"
+          ></mat-icon>
           <a mat-line [routerLink]="['/meus-pedidos']">Meus pedidos</a>
         </mat-list-item>
       </ng-template>
 
       <!-- Declarações -->
-      <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" 
-                           (opened)="toggleMenu('declaracoes')" 
-                           (closed)="toggleMenu(null)">
+      <mat-expansion-panel
+        [expanded]="currentOpenItem === 'declaracoes'"
+        (opened)="toggleMenu('declaracoes')"
+        (closed)="toggleMenu(null)"
+      >
         <mat-expansion-panel-header>
-          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit_document"></mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="edit_document"
+          ></mat-icon>
           <mat-panel-title>Declarações</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list-item>
@@ -28,12 +43,18 @@
       </mat-expansion-panel>
 
       <!-- Administração (visível apenas para admin) -->
-      <mat-expansion-panel *ngIf="isAdmin" 
-                           [expanded]="currentOpenItem === 'administracao'" 
-                           (opened)="toggleMenu('administracao')" 
-                           (closed)="toggleMenu(null)">
+      <mat-expansion-panel
+        *ngIf="isAdmin"
+        [expanded]="currentOpenItem === 'administracao'"
+        (opened)="toggleMenu('administracao')"
+        (closed)="toggleMenu(null)"
+      >
         <mat-expansion-panel-header>
-          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="settings"></mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="settings"
+          ></mat-icon>
           <mat-panel-title>Administração</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list-item>
@@ -49,7 +70,11 @@
 
       <!-- Logout -->
       <mat-list-item>
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="logout"></mat-icon>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="Example home icon"
+          fontIcon="logout"
+        ></mat-icon>
         <a mat-line (click)="logout()">Sair</a>
       </mat-list-item>
     </mat-nav-list>

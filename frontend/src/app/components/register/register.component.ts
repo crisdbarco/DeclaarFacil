@@ -7,7 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatSelectModule } from '@angular/material/select'; // Import para mat-select
+import { MatSelectModule } from '@angular/material/select';
+import { HeaderComponent } from '../shared/components/header/header.component';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select'; // Import para mat-s
     MatSelectModule, // Adicione o módulo MatSelectModule
     ReactiveFormsModule,
     CommonModule,
+    HeaderComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -28,7 +30,35 @@ export class RegisterComponent {
   errorMessage: string = '';
 
   // Defina as siglas dos estados
-  states: string[] = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+  states: string[] = [
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'SE',
+    'TO',
+  ];
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
@@ -52,7 +82,10 @@ export class RegisterComponent {
   async onSubmit() {
     if (this.registerForm.valid) {
       try {
-        const response = await axios.post('http://localhost:3000/users', this.registerForm.value);
+        const response = await axios.post(
+          'http://localhost:3000/users',
+          this.registerForm.value
+        );
         this.router.navigate(['/success']); // Redireciona para a página de sucesso
       } catch (error) {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';
