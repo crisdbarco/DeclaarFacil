@@ -24,18 +24,22 @@
       </ng-template>
 
       <!-- Declarações -->
+
       <mat-expansion-panel
         [expanded]="currentOpenItem === 'declaracoes'"
         (opened)="toggleMenu('declaracoes')"
         (closed)="toggleMenu(null)"
       >
         <mat-expansion-panel-header>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Example home icon"
-            fontIcon="edit_document"
-          ></mat-icon>
-          <mat-panel-title>Declarações</mat-panel-title>
+          <mat-panel-title
+            ><mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="edit_document"
+              class="icon"
+            ></mat-icon
+            >Declarações</mat-panel-title
+          >
         </mat-expansion-panel-header>
         <mat-list-item>
           <a mat-line [routerLink]="['/address']">Endereço</a>
