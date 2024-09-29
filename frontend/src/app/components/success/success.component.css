@@ -1,18 +1,19 @@
 .success-container {
   margin: 0;
   padding: 0;
-  height: 100vh; /* Altura completa da janela */
+  height: 100vh;
   display: flex;
-  flex-direction: column; /* Coloca os itens em coluna */
-  justify-content: center; /* Centraliza verticalmente */
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   h1 {
     font-size: 2rem;
   }
+
   button {
     padding: 10px 20px;
     font-size: 16px;
-    cursor: pointer; /* Faz o botão ocupar a linha inteira */
+    cursor: pointer;
   }
 }

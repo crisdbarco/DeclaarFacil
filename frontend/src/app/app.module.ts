@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { MeusPedidosComponent } from './components/meus-pedidos/meus-pedidos.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NgOptimizedImage } from '@angular/common';
 import { routes } from './app.routes';
@@ -14,9 +14,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   declarations: [
     AppComponent,
     LoginComponent,
-    MeusPedidosComponent,
+    MyOrdersComponent,
     PageNotFoundComponent,
-    // Não precisa declarar MenuComponent, pois ele é standalone
   ],
   imports: [
     BrowserModule,
@@ -28,4 +27,4 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

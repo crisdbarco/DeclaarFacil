@@ -7,27 +7,24 @@
     font-size: 2rem;
   }
 
-  form {
+  .register-form {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens sejam quebrados em várias linhas */
-    justify-content: center; /* Centraliza os itens */
+    flex-wrap: wrap;
+    justify-content: center;
 
     .form-field {
+      min-width: 300px;
+      max-width: 700px;
       margin-right: 20px;
-      min-width: 300px; /* Largura mínima para os campos */
       margin-bottom: 12px;
-      flex: 1 1 45%; /* Permite que os campos ocupem até 45% do espaço, com flexibilidade */
-      max-width: 700px; /* Limita a largura máxima dos campos */
+      flex: 1 1 45%;
     }
 
-    button {
-      max-width: 50px;
-      border-radius: 10px;
-      margin: 100%;
-      min-width: 150px;
-      margin-top: 24px; /* Margem superior para separá-lo dos campos acima */
-      flex-basis: 100%; /* Faz o botão ocupar a linha inteira */
-    }
+  }
+
+  button {
+    min-width: 150px;
+    margin: 24px auto;
   }
 
   .error-message {

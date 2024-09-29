@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { MeusPedidosComponent } from './components/meus-pedidos/meus-pedidos.component';
+import { MyOrdersComponent } from './components/my-orders/my-orders.component';
 import { LoginComponent } from './components/login/login.component';
 import { DeclarationsComponent } from './components/declarations/declarations.component';
 import { AddressComponent } from './components/address/address.component';
 import { ClientsComponent } from './components/clients/clients.component';
 import { UsersComponent } from './components/users/users.component';
-import { OtherDeclarationsComponent } from './components/other-declarations/other-declarations.component'; // Importe o componente
-import { SolicitacoesComponent } from './components/solicitacoes/solicitacoes.component';
+import { OtherDeclarationsComponent } from './components/other-declarations/other-declarations.component';
+import { RequestsComponent } from './components/requests/requests.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { SuccessComponent } from './components/success/success.component';
@@ -15,12 +15,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'meus-pedidos', // Redireciona para meus-pedidos por padrão
-    pathMatch: 'full', // Verifica se o caminho é vazio
+    redirectTo: 'my-orders',
+    pathMatch: 'full',
   },
   {
-    path: 'meus-pedidos', // rota para Meus Pedidos
-    component: MeusPedidosComponent,
+    path: 'my-orders',
+    component: MyOrdersComponent,
     canActivate: [AuthGuard],
     title: 'Declara Fácil - Meus Pedidos',
   },
@@ -66,17 +66,13 @@ export const routes: Routes = [
     title: 'Declara Fácil - Outras Declarações',
   },
   {
-    path: 'solicitacoes',
-    component: SolicitacoesComponent,
+    path: 'requests',
+    component: RequestsComponent,
     canActivate: [AuthGuard],
     title: 'Declara Fácil - Solicitações',
   },
   {
     path: '**',
-    component: PageNotFoundComponent, // Utilize o componente aqui
-  },
-  {
-    path: '**',
-    component: PageNotFoundComponent, // Redireciona para not-found para qualquer rota não encontrada
-  },
+    component: PageNotFoundComponent,
+  }
 ];

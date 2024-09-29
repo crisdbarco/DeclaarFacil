@@ -29,9 +29,9 @@ import { HeaderComponent } from '../shared/components/header/header.component';
 })
 export class MenuComponent {
   isAdmin: boolean = false;
-  currentOpenItem: string | null = null; // Variável para controlar qual painel está aberto
+  currentOpenItem: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
@@ -39,18 +39,16 @@ export class MenuComponent {
   }
 
   toggleMenu(menuItem: string | null): void {
-    // Abre o painel clicado e fecha os outros
     if (this.currentOpenItem === menuItem) {
-      this.currentOpenItem = null; // Fecha se o painel já estiver aberto
+      this.currentOpenItem = null;
     } else {
-      this.currentOpenItem = menuItem; // Abre o painel clicado
+      this.currentOpenItem = menuItem;
     }
   }
 
   checkCurrentRoute(): void {
     const currentRoute = this.router.url;
 
-    // Define o menu aberto com base na rota atual
     if (currentRoute.includes('/address')) {
       this.currentOpenItem = 'declaracoes';
     } else if (
@@ -65,6 +63,6 @@ export class MenuComponent {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']); // Redireciona para a página de login após logout
+    this.router.navigate(['/login']);
   }
 }

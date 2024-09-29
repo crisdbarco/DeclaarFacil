@@ -7,104 +7,76 @@
   </div>
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="name" placeholder="Insira seu nome" />
-    </mat-form-field>
+    <div class="register-form">
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Insira seu nome" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        formControlName="email"
-        type="email"
-        placeholder="Insira seu e-mail"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Insira seu e-mail" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>CPF</mat-label>
-      <input matInput formControlName="cpf" placeholder="Insira seu CPF" />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>CPF</mat-label>
+        <input matInput formControlName="cpf" placeholder="Insira seu CPF" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>RG</mat-label>
-      <input matInput formControlName="rg" placeholder="Insira seu RG" />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>RG</mat-label>
+        <input matInput formControlName="rg" placeholder="Insira seu RG" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Órgão Emissor</mat-label>
-      <input
-        matInput
-        formControlName="issuing_agency"
-        placeholder="Insira o órgão emissor"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Órgão Emissor</mat-label>
+        <input matInput formControlName="issuing_agency" placeholder="Insira o órgão emissor" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Código Postal</mat-label>
-      <input
-        matInput
-        formControlName="postal_code"
-        placeholder="Insira seu código postal"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Código Postal</mat-label>
+        <input matInput formControlName="postal_code" placeholder="Insira seu código postal" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Rua</mat-label>
-      <input matInput formControlName="street" placeholder="Insira sua rua" />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Rua</mat-label>
+        <input matInput formControlName="street" placeholder="Insira sua rua" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Número</mat-label>
-      <input
-        matInput
-        formControlName="house_number"
-        placeholder="Insira o número da casa"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="house_number" placeholder="Insira o número da casa" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Complemento</mat-label>
-      <input
-        matInput
-        formControlName="complement"
-        placeholder="Insira o complemento"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Complemento</mat-label>
+        <input matInput formControlName="complement" placeholder="Insira o complemento" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Bairro</mat-label>
-      <input
-        matInput
-        formControlName="neighborhood"
-        placeholder="Insira seu bairro"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Bairro</mat-label>
+        <input matInput formControlName="neighborhood" placeholder="Insira seu bairro" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Cidade</mat-label>
-      <input matInput formControlName="city" placeholder="Insira sua cidade" />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="city" placeholder="Insira sua cidade" />
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Estado</mat-label>
-      <mat-select formControlName="state" placeholder="Selecione o estado">
-        <mat-option *ngFor="let state of states" [value]="state">
-          {{ state }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="state" placeholder="Selecione o estado">
+          <mat-option *ngFor="let state of states" [value]="state">
+            {{ state }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field class="form-field" appearance="fill">
-      <mat-label>Senha</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        type="password"
-        placeholder="Insira sua senha"
-      />
-    </mat-form-field>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Insira sua senha" />
+      </mat-form-field>
+    </div>
 
     <button mat-flat-button color="primary" type="submit">Criar Conta</button>
   </form>

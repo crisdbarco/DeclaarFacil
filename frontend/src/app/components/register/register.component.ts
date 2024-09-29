@@ -17,7 +17,7 @@ import { HeaderComponent } from '../shared/components/header/header.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSelectModule, // Adicione o módulo MatSelectModule
+    MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
     HeaderComponent,
@@ -29,7 +29,6 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
 
-  // Defina as siglas dos estados
   states: string[] = [
     'AC',
     'AL',
@@ -73,7 +72,7 @@ export class RegisterComponent {
       complement: [''],
       neighborhood: ['', Validators.required],
       city: ['', Validators.required],
-      state: ['', Validators.required], // Campo para selecionar estado
+      state: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       is_admin: [false],
     });
@@ -82,11 +81,11 @@ export class RegisterComponent {
   async onSubmit() {
     if (this.registerForm.valid) {
       try {
-        const response = await axios.post(
+        await axios.post(
           'http://localhost:3000/users',
           this.registerForm.value
         );
-        this.router.navigate(['/success']); // Redireciona para a página de sucesso
+        this.router.navigate(['/success']);
       } catch (error) {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';
         console.error('Erro ao criar usuário:', error);

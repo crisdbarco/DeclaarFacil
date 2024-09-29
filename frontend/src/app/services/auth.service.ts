@@ -12,14 +12,12 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  // Armazena o token no localStorage
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // Verifica se o usuário está logado
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
     if (token) {
@@ -33,13 +31,12 @@ export class AuthService {
     return false;
   }
 
-  // Verifica se o usuário é admin
   isAdmin(): boolean {
     const token = localStorage.getItem('token');
     if (token) {
       try {
         const decodedToken = jwtDecode<DecodedToken>(token);
-        return decodedToken.is_admin || false; // Retorna verdadeiro se for admin
+        return decodedToken.is_admin || false;
       } catch (error) {
         return false;
       }
@@ -47,7 +44,6 @@ export class AuthService {
     return false;
   }
 
-  // Logout
   logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
