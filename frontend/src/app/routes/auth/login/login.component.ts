@@ -12,8 +12,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from '../../../components/shared/components/header/header.component';
-import { AuthService } from '../../../services/auth.service';
+import { HeaderComponent } from '../../../core/layout/header/header.component';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',

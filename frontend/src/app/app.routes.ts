@@ -4,7 +4,7 @@ import { AddressComponent } from './routes/requester/declaration/address/address
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 import { OtherDeclarationsComponent } from './routes/admin/other-declarations/other-declarations.component';
 import { RequestsComponent } from './routes/admin/requests/requests.component';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './core/providers/auth.guard';
 import { SuccessComponent } from './routes/auth/register/success/success.component';
 import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.component';
 import { LoginComponent } from './routes/auth/login/login.component';

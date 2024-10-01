@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuComponent } from '../../../../components/menu/menu.component';
+import { MenuComponent } from '../../../../core/layout/menu/menu.component';
 
 @Component({
   selector: 'app-address',

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './core/providers/auth.guard';
 import { NgOptimizedImage } from '@angular/common';
 import { routes } from './app.routes';
 import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.component';

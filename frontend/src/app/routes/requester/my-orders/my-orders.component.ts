@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { MenuComponent } from '../../../components/menu/menu.component';
+import { MenuComponent } from '../../../core/layout/menu/menu.component';
 
 @Component({
   selector: 'app-my-orders',
