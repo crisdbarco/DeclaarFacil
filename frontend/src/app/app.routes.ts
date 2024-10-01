@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { MyOrdersComponent } from './components/my-orders/my-orders.component';
-import { LoginComponent } from './components/login/login.component';
-import { DeclarationsComponent } from './components/declarations/declarations.component';
-import { AddressComponent } from './components/address/address.component';
-import { ClientsComponent } from './components/clients/clients.component';
-import { UsersComponent } from './components/users/users.component';
-import { OtherDeclarationsComponent } from './components/other-declarations/other-declarations.component';
-import { RequestsComponent } from './components/requests/requests.component';
-import { RegisterComponent } from './components/register/register.component';
+import { DeclarationsComponent } from './routes/admin/declarations/declarations.component';
+import { AddressComponent } from './routes/requester/declaration/address/address.component';
+import { ClientsComponent } from './routes/admin/clients/clients.component';
+import { OtherDeclarationsComponent } from './routes/admin/other-declarations/other-declarations.component';
+import { RequestsComponent } from './routes/admin/requests/requests.component';
 import { AuthGuard } from './guards/auth.guard';
-import { SuccessComponent } from './components/success/success.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SuccessComponent } from './routes/auth/register/success/success.component';
+import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.component';
+import { LoginComponent } from './routes/auth/login/login.component';
+import { RegisterComponent } from './routes/auth/register/register.component';
+import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.component';
+import { UsersComponent } from './routes/admin/users/users.component';
 
 export const routes: Routes = [
   {
@@ -22,57 +22,57 @@ export const routes: Routes = [
     path: 'my-orders',
     component: MyOrdersComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Meus Pedidos',
+    title: 'Minhas solicitações',
   },
   {
     path: 'login',
     component: LoginComponent,
-    title: 'Declara Fácil - Login',
+    title: 'Login',
   },
   {
     path: 'register',
     component: RegisterComponent,
-    title: 'Declara Fácil - Criar conta',
+    title: 'Criar conta',
   },
   { path: 'success', component: SuccessComponent },
   {
     path: 'declarations',
     component: DeclarationsComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Declarações',
+    title: 'Declarações',
   },
   {
     path: 'address',
     component: AddressComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Endereço',
+    title: 'Endereço',
   },
   {
     path: 'clients',
     component: ClientsComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Clientes',
+    title: 'Clientes',
   },
   {
     path: 'users',
     component: UsersComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Usuários',
+    title: 'Usuários',
   },
   {
     path: 'other-declarations',
     component: OtherDeclarationsComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Outras Declarações',
+    title: 'Outras Declarações',
   },
   {
     path: 'requests',
     component: RequestsComponent,
     canActivate: [AuthGuard],
-    title: 'Declara Fácil - Solicitações',
+    title: 'Solicitações',
   },
   {
     path: '**',
     component: PageNotFoundComponent,
-  }
+  },
 ];

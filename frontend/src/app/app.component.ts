@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/shared/components/header/header.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { LoginComponent } from './routes/auth/login/login.component';
 
 @Component({
   selector: 'app-root',

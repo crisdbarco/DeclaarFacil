@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from '../menu/menu.component';
+import { MenuComponent } from '../../../components/menu/menu.component';
 
 @Component({
   selector: 'app-requests',
   standalone: true,
   imports: [MenuComponent],
   templateUrl: './requests.component.html',
-  styleUrl: './requests.component.css'
+  styleUrl: './requests.component.css',
 })
-export class RequestsComponent {
-
-}
+export class RequestsComponent {}

@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { MenuComponent } from '../menu/menu.component';
+import { MenuComponent } from '../../../components/menu/menu.component';
 
 @Component({
   selector: 'app-my-orders',
   standalone: true,
   imports: [CommonModule, MenuComponent],
   templateUrl: './my-orders.component.html',
-  styleUrl: './my-orders.component.css'
+  styleUrl: './my-orders.component.css',
 })
 export class MyOrdersComponent {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   logout() {
     localStorage.removeItem('token');

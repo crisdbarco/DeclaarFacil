@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from '../menu/menu.component';
+import { MenuComponent } from '../../../components/menu/menu.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [MenuComponent],
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrl: './users.component.css',
 })
-export class UsersComponent {
-
-}
+export class UsersComponent {}
