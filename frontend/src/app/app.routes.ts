@@ -11,6 +11,8 @@ import { LoginComponent } from './routes/auth/login/login.component';
 import { RegisterComponent } from './routes/auth/register/register.component';
 import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.component';
 import { UsersComponent } from './routes/admin/users/users.component';
+import { PublicLayoutComponent } from './core/layout/public-layout/public-layout.component';
+import { PrivateLayoutComponent } from './core/layout/private-layout/private-layout.component';
 
 export const routes: Routes = [
   {
@@ -19,57 +21,59 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'my-orders',
-    component: MyOrdersComponent,
+    path: '',
+    component: PublicLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent, title: 'Login' },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        title: 'Criar conta',
+      },
+      { path: 'success', component: SuccessComponent },
+    ],
+  },
+  {
+    path: '',
+    component: PrivateLayoutComponent,
     canActivate: [AuthGuard],
-    title: 'Minhas solicitações',
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    title: 'Login',
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    title: 'Criar conta',
-  },
-  { path: 'success', component: SuccessComponent },
-  {
-    path: 'declarations',
-    component: DeclarationsComponent,
-    canActivate: [AuthGuard],
-    title: 'Declarações',
-  },
-  {
-    path: 'address',
-    component: AddressComponent,
-    canActivate: [AuthGuard],
-    title: 'Endereço',
-  },
-  {
-    path: 'clients',
-    component: ClientsComponent,
-    canActivate: [AuthGuard],
-    title: 'Clientes',
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    canActivate: [AuthGuard],
-    title: 'Usuários',
-  },
-  {
-    path: 'other-declarations',
-    component: OtherDeclarationsComponent,
-    canActivate: [AuthGuard],
-    title: 'Outras Declarações',
-  },
-  {
-    path: 'requests',
-    component: RequestsComponent,
-    canActivate: [AuthGuard],
-    title: 'Solicitações',
+    children: [
+      {
+        path: 'my-orders',
+        component: MyOrdersComponent,
+        title: 'Minhas solicitações',
+      },
+      {
+        path: 'declarations',
+        component: DeclarationsComponent,
+        title: 'Declarações',
+      },
+      {
+        path: 'address',
+        component: AddressComponent,
+        title: 'Endereço',
+      },
+      {
+        path: 'clients',
+        component: ClientsComponent,
+        title: 'Clientes',
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        title: 'Usuários',
+      },
+      {
+        path: 'other-declarations',
+        component: OtherDeclarationsComponent,
+        title: 'Outras Declarações',
+      },
+      {
+        path: 'requests',
+        component: RequestsComponent,
+        title: 'Solicitações',
+      },
+    ],
   },
   {
     path: '**',

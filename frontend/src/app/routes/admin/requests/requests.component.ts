@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from '../../../core/layout/menu/menu.component';
 
 @Component({
   selector: 'app-requests',
   standalone: true,
-  imports: [MenuComponent],
+  imports: [],
   templateUrl: './requests.component.html',
   styleUrl: './requests.component.css',
 })
