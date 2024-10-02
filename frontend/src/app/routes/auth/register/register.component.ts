@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { HeaderComponent } from '../../../core/layout/header/header.component';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +19,6 @@ import { HeaderComponent } from '../../../core/layout/header/header.component';
     MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],

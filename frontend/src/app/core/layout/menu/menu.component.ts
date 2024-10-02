@@ -8,7 +8,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-menu',
@@ -22,7 +21,6 @@ import { HeaderComponent } from '../header/header.component';
     MatListModule,
     MatExpansionModule,
     MatIconModule,
-    HeaderComponent,
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],

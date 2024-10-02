@@ -12,7 +12,6 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from '../../../core/layout/header/header.component';
 import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
@@ -25,7 +24,6 @@ import { AuthService } from '../../../shared/services/auth.service';
     CommonModule,
     MatButtonModule,
     RouterLink,
-    HeaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
