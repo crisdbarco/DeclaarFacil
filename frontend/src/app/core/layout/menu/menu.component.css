@@ -1,5 +1,6 @@
 .sidenav-container {
   height: 100%;
+  display: flex;
 }
 
 mat-sidenav {
@@ -28,4 +29,21 @@ mat-list-item a {
 mat-list-item a:hover {
   background-color: #f0f0f0;
   text-decoration: underline;
+}
+
+mat-list-item:hover {
+  border-radius: 0px;
+}
+.icon {
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+mat-list-item {
+  padding-left: 10px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+mat-expansion-panel-header {
+  padding-left: 10px;
 }
