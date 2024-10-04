@@ -1,17 +1,15 @@
-import { Controller, Post, UseGuards, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard'; // Guard para autenticar usuários
 import { RequestService } from './request.service';
-import { CreateRequestDto } from './dto/create-request.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('request')
-@Controller('request')
+@Controller('requests')
 export class RequestController {
-  constructor(private readonly requestsService: RequestService) {}
+  constructor(private readonly requestService: RequestService) {}
 
-  @Post()
   @UseGuards(JwtAuthGuard)
-  async create(@Body() createRequestDto: CreateRequestDto) {
-    return this.requestsService.create(createRequestDto);
+  @Post('create')
+  async createRequest(@Body('address') address: string, @Request() req) {
+    const user = req.user; // O usuário autenticado (JWT)
+    return this.requestService.createRequest(address, user);
   }
 }

@@ -1,26 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDeclarationDto } from './dto/create-declaration.dto';
-import { UpdateDeclarationDto } from './dto/update-declaration.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Declaration } from './declaration.entity';
 
 @Injectable()
 export class DeclarationService {
-  create(createDeclarationDto: CreateDeclarationDto) {
-    return 'This action adds a new declaration';
-  }
+  constructor(
+    @InjectRepository(Declaration)
+    private declarationRepository: Repository<Declaration>,
+  ) {}
 
-  findAll() {
-    return `This action returns all declaration`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} declaration`;
-  }
-
-  update(id: number, updateDeclarationDto: UpdateDeclarationDto) {
-    return `This action updates a #${id} declaration`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} declaration`;
+  async createDeclaration(content: string): Promise<Declaration> {
+    const declaration = this.declarationRepository.create({ content });
+    return this.declarationRepository.save(declaration);
   }
 }

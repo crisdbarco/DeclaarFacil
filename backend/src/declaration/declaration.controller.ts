@@ -1,15 +1,27 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  ForbiddenException,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DeclarationService } from './declaration.service';
-import { CreateDeclarationDto } from './dto/create-declaration.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@Controller('declaration')
+@Controller('declarations')
 export class DeclarationController {
   constructor(private readonly declarationService: DeclarationService) {}
 
-  @Post()
   @UseGuards(JwtAuthGuard)
-  async create(@Body() createDeclarationDto: CreateDeclarationDto) {
-    return this.declarationService.create(createDeclarationDto);
+  @Post('create')
+  async create(@Body('content') content: string, @Request() req) {
+    if (!req.user.is_admin) {
+      throw new ForbiddenException(
+        'Apenas administradores podem criar declarações.',
+      );
+    }
+
+    return this.declarationService.createDeclaration(content);
   }
 }
