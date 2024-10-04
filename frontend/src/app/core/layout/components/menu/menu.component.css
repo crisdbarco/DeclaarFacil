@@ -49,3 +49,8 @@ mat-list-item {
 mat-expansion-panel-header {
   padding-left: 10px;
 }
+
+.mat-drawer-content {
+  width: 100%;
+  height: calc(100vh - 80px - 66px);
+}
