@@ -1,4 +1,10 @@
 <mat-toolbar color="primary" class="custom-toolbar">
-  <img Src="img/contrato.png" alt="" class="toolbar-image" />
-  <span class="toolbar-title"> DeclaraFácil</span>
+  <div class="logo-group">
+    <img Src="img/contrato.png" alt="" class="toolbar-image" />
+    <span class="toolbar-title"> DeclaraFácil</span>
+  </div>
+  <span *ngIf="username" class="toolbar-user">
+    {{ username }}
+  </span>
+  <mat-icon aria-hidden="true" aria-label="" fontIcon="person" class="toolbar-user-icon"></mat-icon>
 </mat-toolbar>
