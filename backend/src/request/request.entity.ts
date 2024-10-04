@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../users/user.entity'; // Assumindo que você já tem a entidade User
+import { User } from '../users/user.entity';
 
 @Entity('requests')
 export class Request {
@@ -7,14 +7,14 @@ export class Request {
   id: number;
 
   @Column()
-  address: string; // Endereço solicitado
+  address: string;
 
   @ManyToOne(() => User, (user) => user)
-  user: User; // Relação com o usuário que fez a solicitação
+  user: User;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @Column({ default: 'pending' })
-  status: string;
+  status: string; // Status da solicitação (pending, completed, rejected)
 }
