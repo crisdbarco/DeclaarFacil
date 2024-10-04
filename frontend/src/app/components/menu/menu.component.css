@@ -29,3 +29,10 @@ mat-list-item a:hover {
   background-color: #f0f0f0;
   text-decoration: underline;
 }
+
+mat-list-item:hover {
+  border-radius: 0px; /* Adicione uma borda ao passar o mouse */
+}
+.icon {
+  margin-right: 10px;
+}

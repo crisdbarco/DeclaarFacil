@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core'; // Import ChangeDetectorRef
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -29,17 +29,23 @@ import { HeaderComponent } from '../shared/components/header/header.component';
 })
 export class MenuComponent {
   isAdmin: boolean = false;
-  currentOpenItem: string | null = null; // Variável para controlar qual painel está aberto
+  currentOpenItem: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef // Adicionado ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
     this.checkCurrentRoute();
+
+    // Força a detecção de mudanças após a inicialização
+    this.cdr.detectChanges();
   }
 
   toggleMenu(menuItem: string | null): void {
-    // Abre o painel clicado e fecha os outros
     if (this.currentOpenItem === menuItem) {
       this.currentOpenItem = null; // Fecha se o painel já estiver aberto
     } else {
@@ -50,7 +56,6 @@ export class MenuComponent {
   checkCurrentRoute(): void {
     const currentRoute = this.router.url;
 
-    // Define o menu aberto com base na rota atual
     if (currentRoute.includes('/address')) {
       this.currentOpenItem = 'declaracoes';
     } else if (
@@ -61,6 +66,9 @@ export class MenuComponent {
     } else {
       this.currentOpenItem = null;
     }
+
+    // Força a detecção de mudanças após a verificação de rota
+    this.cdr.detectChanges();
   }
 
   logout(): void {
