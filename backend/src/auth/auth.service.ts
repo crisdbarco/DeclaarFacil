@@ -10,7 +10,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findOne(email); // método para encontrar o usuário pelo email
@@ -26,7 +26,11 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const payload = { email: user.email, sub: user.id, is_admin: user.is_admin };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      is_admin: user.is_admin,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

@@ -2,49 +2,29 @@
   <mat-sidenav mode="side" opened>
     <mat-nav-list>
       <mat-list-item *ngIf="isAdmin; else clientOrders">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example home icon"
-          fontIcon="home"
-          class="icon"
-        ></mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" class="icon"></mat-icon>
         <a mat-line [routerLink]="['/requests']">Solicitações</a>
       </mat-list-item>
 
       <ng-template #clientOrders>
         <mat-list-item>
-          <mat-icon
-            aria-hidden="false"
-            aria-label="Example home icon"
-            fontIcon="home"
-            class="icon"
-          ></mat-icon>
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" class="icon"></mat-icon>
           <a mat-line [routerLink]="['/my-orders']">Meus pedidos</a>
         </mat-list-item>
       </ng-template>
 
-      <mat-expansion-panel
-        [expanded]="currentOpenItem === 'declaracoes'"
-        (opened)="toggleMenu('declaracoes')"
-        (closed)="toggleMenu(null)"
-      >
+      <!-- <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" (opened)="toggleMenu('declaracoes')"
+        (closed)="toggleMenu(null)">
         <mat-expansion-panel-header>
-          <mat-panel-title
-            ><mat-icon
-              aria-hidden="false"
-              aria-label="Example home icon"
-              fontIcon="edit_document"
-              class="icon"
-            ></mat-icon
-            >Declarações</mat-panel-title
-          >
+          <mat-panel-title><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit_document"
+              class="icon"></mat-icon>Declarações</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list-item>
           <a mat-line [routerLink]="['/address']">Endereço</a>
         </mat-list-item>
-      </mat-expansion-panel>
+      </mat-expansion-panel> -->
 
-      <mat-expansion-panel
+      <!-- <mat-expansion-panel
         *ngIf="isAdmin"
         [expanded]="currentOpenItem === 'administracao'"
         (opened)="toggleMenu('administracao')"
@@ -70,15 +50,10 @@
         <mat-list-item>
           <a mat-line [routerLink]="['/users']">Usuários</a>
         </mat-list-item>
-      </mat-expansion-panel>
+      </mat-expansion-panel> -->
 
       <mat-list-item>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example home icon"
-          fontIcon="logout"
-          class="icon"
-        ></mat-icon>
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="logout" class="icon"></mat-icon>
         <a mat-line (click)="logout()">Sair</a>
       </mat-list-item>
     </mat-nav-list>

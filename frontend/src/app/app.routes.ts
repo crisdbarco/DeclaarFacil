@@ -13,6 +13,8 @@ import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.compon
 import { UsersComponent } from './routes/admin/users/users.component';
 import { PublicLayoutComponent } from './core/layout/public-layout/public-layout.component';
 import { PrivateLayoutComponent } from './core/layout/private-layout/private-layout.component';
+import { RequesterGuard } from './core/providers/requester.guard';
+import { AdminGuard } from './core/providers/admin.guard';
 
 export const routes: Routes = [
   {
@@ -42,37 +44,39 @@ export const routes: Routes = [
         path: 'my-orders',
         component: MyOrdersComponent,
         title: 'Minhas solicitações',
-      },
-      {
-        path: 'declarations',
-        component: DeclarationsComponent,
-        title: 'Declarações',
-      },
-      {
-        path: 'address',
-        component: AddressComponent,
-        title: 'Endereço',
-      },
-      {
-        path: 'clients',
-        component: ClientsComponent,
-        title: 'Clientes',
-      },
-      {
-        path: 'users',
-        component: UsersComponent,
-        title: 'Usuários',
-      },
-      {
-        path: 'other-declarations',
-        component: OtherDeclarationsComponent,
-        title: 'Outras Declarações',
+        canActivate: [RequesterGuard]
       },
       {
         path: 'requests',
         component: RequestsComponent,
         title: 'Solicitações',
+        canActivate: [AdminGuard]
       },
+      // {
+      //   path: 'declarations',
+      //   component: DeclarationsComponent,
+      //   title: 'Declarações',
+      // },
+      // {
+      //   path: 'address',
+      //   component: AddressComponent,
+      //   title: 'Endereço',
+      // },
+      // {
+      //   path: 'clients',
+      //   component: ClientsComponent,
+      //   title: 'Clientes',
+      // },
+      // {
+      //   path: 'users',
+      //   component: UsersComponent,
+      //   title: 'Usuários',
+      // },
+      // {
+      //   path: 'other-declarations',
+      //   component: OtherDeclarationsComponent,
+      //   title: 'Outras Declarações',
+      // },
     ],
   },
   {
