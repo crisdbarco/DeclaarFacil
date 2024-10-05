@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core'; // Import ChangeDetectorRef
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -29,11 +29,18 @@ export class MenuComponent {
   isAdmin: boolean = false;
   currentOpenItem: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef // Adicionado ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
     this.checkCurrentRoute();
+
+    // Força a detecção de mudanças após a inicialização
+    this.cdr.detectChanges();
   }
 
   toggleMenu(menuItem: string | null): void {
@@ -57,6 +64,9 @@ export class MenuComponent {
     } else {
       this.currentOpenItem = null;
     }
+
+    // Força a detecção de mudanças após a verificação de rota
+    this.cdr.detectChanges();
   }
 
   logout(): void {

@@ -9,7 +9,7 @@ import {
 @Entity('users') // Tabela 'users' no banco de dados
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ length: 100 })
   name: string;
