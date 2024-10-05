@@ -31,9 +31,9 @@ export class Request {
   @JoinColumn({ name: 'declaration_id' })
   declaration: Declaration;
 
-  @ManyToOne(() => Attendant, { eager: true, nullable: true }) // Assumindo que 'attendant' pode ser nulo
+  @ManyToOne(() => User, { eager: true, nullable: true })
   @JoinColumn({ name: 'attendant_id' })
-  attendant: Attendant;
+  attendant: User;
 
   @Column({
     type: 'enum',
