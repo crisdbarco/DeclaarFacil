@@ -15,7 +15,7 @@ export class JwtAuthGuard implements CanActivate {
     private jwtService: JwtService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> { // Mudei para Promise<boolean>
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -33,7 +33,7 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      const decoded = this.jwtService.verifyAsync(token, {
+      const decoded = await this.jwtService.verifyAsync(token, { // Usei await aqui
         secret: process.env.JWT_SECRET,
       });
       request.user = decoded;
