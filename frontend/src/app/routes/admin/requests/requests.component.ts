@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { DeclarationRequestType } from '../../../shared/domain/requests.type';
 import { StatusPipe } from '../../../core/pipes/status.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { GenerateDeclarationConfirmComponent } from './dialog/generate-declaration-confirm/generate-declaration-confirm.component';
 
 const REQUEST_DATA: DeclarationRequestType[] = [
   {
@@ -52,6 +54,7 @@ export class RequestsComponent {
   displayedColumns: string[] = ['name', 'requestDate', 'status', 'select'];
   dataSource = REQUEST_DATA;
   selection = new SelectionModel<DeclarationRequestType>(true, []);
+  dialog = inject(MatDialog);
 
   checkboxLabel(row: DeclarationRequestType): string {
     return `${
@@ -67,5 +70,15 @@ export class RequestsComponent {
     } else {
       alert('Nenhum solicitante selecionado.');
     }
+  }
+
+  openGenerateDeclarationConfirmDialog() {
+    this.dialog.open(GenerateDeclarationConfirmComponent, {
+      data: {
+        animal: 'panda',
+        requests: this.selection.selected,
+      },
+      width: '60%',
+    });
   }
 }
