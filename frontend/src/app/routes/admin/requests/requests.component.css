@@ -27,4 +27,15 @@
   .mat-column-select {
     text-align: center;
   }
+
+  .button-group {
+    margin: 24px 0 0 auto;
+    text-align: right;
+
+    button {
+      border-radius: 10px;
+      min-width: 120px;
+      margin-left: 12px;
+    }
+  }
 }
