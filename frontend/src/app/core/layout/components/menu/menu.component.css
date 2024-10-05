@@ -9,6 +9,10 @@ mat-sidenav {
   border-radius: 0px;
 }
 
+mat-sidenav-content {
+  background-color: #fff;
+}
+
 mat-nav-list {
   padding: 0;
   border-radius: 0px;
