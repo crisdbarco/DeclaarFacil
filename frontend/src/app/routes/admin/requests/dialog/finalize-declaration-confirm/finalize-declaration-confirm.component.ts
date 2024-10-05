@@ -5,6 +5,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
+  MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { DeclarationRequestType } from '../../../../../shared/domain/requests.type';
@@ -26,9 +27,15 @@ export class FinalizeDeclarationConfirmComponent {
   data = inject(MAT_DIALOG_DATA);
   processingRequests: DeclarationRequestType[] = [];
 
+  constructor(
+    public dialogRef: MatDialogRef<FinalizeDeclarationConfirmComponent>
+  ) {}
+
   ngOnInit() {
-    this.processingRequests = this.data.requests.filter(
-      (request: DeclarationRequestType) => request.status === 'processing'
-    );
+    this.processingRequests = this.data.requests;
+  }
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
   }
 }

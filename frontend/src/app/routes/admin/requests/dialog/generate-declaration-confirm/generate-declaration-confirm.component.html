@@ -23,7 +23,11 @@
 </mat-dialog-content>
 <mat-dialog-actions class="action-group">
   <button mat-stroked-button mat-dialog-close>Cancelar</button>
-  <button mat-flat-button [disabled]="!pendingRequests.length">
+  <button
+    mat-flat-button
+    [disabled]="!pendingRequests.length"
+    (click)="onConfirm()"
+  >
     Confirmar
   </button>
 </mat-dialog-actions>

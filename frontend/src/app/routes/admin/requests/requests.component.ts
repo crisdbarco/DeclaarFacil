@@ -9,6 +9,7 @@ import { StatusPipe } from '../../../core/pipes/status.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { GenerateDeclarationConfirmComponent } from './dialog/generate-declaration-confirm/generate-declaration-confirm.component';
 import { FinalizeDeclarationConfirmComponent } from './dialog/finalize-declaration-confirm/finalize-declaration-confirm.component';
+import { Router } from '@angular/router';
 
 const REQUEST_DATA: DeclarationRequestType[] = [
   {
@@ -57,6 +58,8 @@ export class RequestsComponent {
   selection = new SelectionModel<DeclarationRequestType>(true, []);
   dialog = inject(MatDialog);
 
+  constructor(private router: Router) {}
+
   checkboxLabel(row: DeclarationRequestType): string {
     return `${
       this.selection.isSelected(row) ? 'deselecionar' : 'selecionar'
@@ -64,18 +67,39 @@ export class RequestsComponent {
   }
 
   openGenerateDeclarationConfirmDialog() {
-    this.dialog.open(GenerateDeclarationConfirmComponent, {
+    const pendingRequests: DeclarationRequestType[] =
+      this.selection.selected.filter(
+        (request: DeclarationRequestType) => request.status === 'pending'
+      );
+
+    let dialogRef = this.dialog.open(GenerateDeclarationConfirmComponent, {
       data: {
-        requests: this.selection.selected,
+        requests: pendingRequests,
       },
       width: '60%',
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.generateDeclarations(pendingRequests);
+      }
+    });
+  }
+
+  generateDeclarations(pendingRequests: DeclarationRequestType[]) {
+    // TODO: Aqui falta a requisição de gerar a declaracão e precisa ser bloqueado o botão de gerar enquanto nao terminar a requisiçao
+    this.router.navigate(['/completed-declarations']);
   }
 
   openFinalizeDeclarationConfirmDialog() {
+    const processingRequests: DeclarationRequestType[] =
+      this.selection.selected.filter(
+        (request: DeclarationRequestType) => request.status === 'pending'
+      );
+
     this.dialog.open(FinalizeDeclarationConfirmComponent, {
       data: {
-        requests: this.selection.selected,
+        requests: processingRequests,
       },
       width: '60%',
     });

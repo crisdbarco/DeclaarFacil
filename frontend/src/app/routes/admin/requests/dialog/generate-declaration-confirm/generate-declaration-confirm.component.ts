@@ -5,6 +5,7 @@ import {
   MatDialogContent,
   MatDialogActions,
   MatDialogClose,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { DeclarationRequestType } from '../../../../../shared/domain/requests.type';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,9 +27,15 @@ export class GenerateDeclarationConfirmComponent {
   data = inject(MAT_DIALOG_DATA);
   pendingRequests: DeclarationRequestType[] = [];
 
+  constructor(
+    public dialogRef: MatDialogRef<GenerateDeclarationConfirmComponent>
+  ) {}
+
   ngOnInit() {
-    this.pendingRequests = this.data.requests.filter(
-      (request: DeclarationRequestType) => request.status === 'pending'
-    );
+    this.pendingRequests = this.data.requests;
+  }
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
   }
 }
