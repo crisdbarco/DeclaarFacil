@@ -94,7 +94,7 @@ export class RequestsComponent {
   openFinalizeDeclarationConfirmDialog() {
     const processingRequests: DeclarationRequestType[] =
       this.selection.selected.filter(
-        (request: DeclarationRequestType) => request.status === 'pending'
+        (request: DeclarationRequestType) => request.status === 'processing'
       );
 
     this.dialog.open(FinalizeDeclarationConfirmComponent, {
