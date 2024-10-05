@@ -8,6 +8,7 @@ import { DeclarationRequestType } from '../../../shared/domain/requests.type';
 import { StatusPipe } from '../../../core/pipes/status.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { GenerateDeclarationConfirmComponent } from './dialog/generate-declaration-confirm/generate-declaration-confirm.component';
+import { FinalizeDeclarationConfirmComponent } from './dialog/finalize-declaration-confirm/finalize-declaration-confirm.component';
 
 const REQUEST_DATA: DeclarationRequestType[] = [
   {
@@ -62,20 +63,18 @@ export class RequestsComponent {
     } a pessoa ${row.name}`;
   }
 
-  showSelectedRows() {
-    const selectedRows = this.selection.selected;
-    if (selectedRows.length > 0) {
-      const selectedNames = selectedRows.map((row) => row.name).join(', ');
-      alert(`Solicitantes selecionados: ${selectedNames}`);
-    } else {
-      alert('Nenhum solicitante selecionado.');
-    }
-  }
-
   openGenerateDeclarationConfirmDialog() {
     this.dialog.open(GenerateDeclarationConfirmComponent, {
       data: {
-        animal: 'panda',
+        requests: this.selection.selected,
+      },
+      width: '60%',
+    });
+  }
+
+  openFinalizeDeclarationConfirmDialog() {
+    this.dialog.open(FinalizeDeclarationConfirmComponent, {
+      data: {
         requests: this.selection.selected,
       },
       width: '60%',
