@@ -1,6 +1,9 @@
 <main class="completed-declarations-container">
   <h1>Declaração de endereço</h1>
 
+  @if (!declarations.length) {
+  <p class="description">Nenhuma declaração a ser exibida.</p>
+  } @else {
   <p class="description">As declarações foram geradas com sucesso!</p>
 
   <ul class="request-list">
@@ -20,6 +23,7 @@
     </li>
     }
   </ul>
+  }
 
   <div class="pos-button">
     <a mat-flat-button class="back-button" routerLink="/requests"

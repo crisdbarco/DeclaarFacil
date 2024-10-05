@@ -11,6 +11,7 @@ import { GenerateDeclarationConfirmComponent } from './dialog/generate-declarati
 import { FinalizeDeclarationConfirmComponent } from './dialog/finalize-declaration-confirm/finalize-declaration-confirm.component';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { DeclarationRequestService } from '../../../shared/services/declaration-request.service';
 
 const REQUEST_DATA: DeclarationRequestType[] = [
   {
@@ -40,6 +41,27 @@ const REQUEST_DATA: DeclarationRequestType[] = [
   },
 ];
 
+const RESPONSE_DATA: DeclarationRequestType[] = [
+  {
+    name: 'Carlos Eduardo Pereira',
+    requestDate: new Date('2024-10-01'),
+    status: 'completed',
+    url: 'https://example.com/declaration/carlos-eduardo.pdf',
+  },
+  {
+    name: 'Ana Beatriz Silva',
+    requestDate: new Date('2024-09-28'),
+    status: 'completed',
+    url: 'https://example.com/declaration/ana-beatriz.pdf',
+  },
+  {
+    name: 'José da Silva',
+    requestDate: new Date('2024-09-27'),
+    status: 'completed',
+    url: 'https://example.com/declaration/jose-da-silva.pdf',
+  },
+];
+
 @Component({
   selector: 'app-requests',
   standalone: true,
@@ -60,7 +82,10 @@ export class RequestsComponent {
   dialog = inject(MatDialog);
   toast = inject(NgToastService);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private declarationRequestService: DeclarationRequestService
+  ) {}
 
   checkboxLabel(row: DeclarationRequestType): string {
     return `${
@@ -90,6 +115,10 @@ export class RequestsComponent {
 
   generateDeclarations(pendingRequests: DeclarationRequestType[]) {
     // TODO: Aqui falta a requisição de gerar a declaracão e precisa ser bloqueado o botão de gerar enquanto nao terminar a requisiçao
+
+    // TODO: substituir o valor pelo retorno da request
+    this.declarationRequestService.setGeneratedDeclarations(RESPONSE_DATA);
+
     this.router.navigate(['/completed-declarations']);
   }
 
