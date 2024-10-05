@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenerateDeclarationConfirmComponent } from './dialog/generate-declaration-confirm/generate-declaration-confirm.component';
 import { FinalizeDeclarationConfirmComponent } from './dialog/finalize-declaration-confirm/finalize-declaration-confirm.component';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 
 const REQUEST_DATA: DeclarationRequestType[] = [
   {
@@ -57,6 +58,7 @@ export class RequestsComponent {
   dataSource = REQUEST_DATA;
   selection = new SelectionModel<DeclarationRequestType>(true, []);
   dialog = inject(MatDialog);
+  toast = inject(NgToastService);
 
   constructor(private router: Router) {}
 
@@ -97,11 +99,26 @@ export class RequestsComponent {
         (request: DeclarationRequestType) => request.status === 'processing'
       );
 
-    this.dialog.open(FinalizeDeclarationConfirmComponent, {
+    let dialogRef = this.dialog.open(FinalizeDeclarationConfirmComponent, {
       data: {
         requests: processingRequests,
       },
       width: '60%',
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.finalizeDeclarations(processingRequests);
+      }
+    });
+  }
+
+  finalizeDeclarations(processingRequests: DeclarationRequestType[]) {
+    // TODO: Aqui falta a requisição de finalizar a solicitação
+    this.toast.success(
+      'Sua declaração foi finalizada com sucesso!',
+      'Declaração Finalizada',
+      5000
+    );
   }
 }
