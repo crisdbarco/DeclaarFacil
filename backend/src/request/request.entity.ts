@@ -1,20 +1,53 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../users/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+// Certifique-se de que o caminho está correto
+import { User } from 'src/users/user.entity';
+import { Declaration } from 'src/declaration/declaration.entity';
+
+export enum RequestStatus {
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  COMPLETED = 'completed',
+  REJECTED = 'rejected',
+}
 
 @Entity('requests')
 export class Request {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  address: string;
-
-  @ManyToOne(() => User, (user) => user)
+  @ManyToOne(() => User, { eager: true })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @ManyToOne(() => Declaration, { eager: true })
+  @JoinColumn({ name: 'declaration_id' })
+  declaration: Declaration;
+
+  @ManyToOne(() => Attendant, { eager: true, nullable: true }) // Assumindo que 'attendant' pode ser nulo
+  @JoinColumn({ name: 'attendant_id' })
+  attendant: Attendant;
+
+  @Column({
+    type: 'enum',
+    enum: RequestStatus,
+    default: RequestStatus.PENDING,
+  })
+  status: RequestStatus;
+
+  @Column()
+  generation_date: Date;
+
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ default: 'pending' })
-  status: string; // Status da solicitação (pending, completed, rejected)
+  @UpdateDateColumn()
+  updated_at: Date;
 }
