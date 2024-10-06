@@ -12,7 +12,7 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   saveToken(token: string): void {
     localStorage.setItem('token', token);

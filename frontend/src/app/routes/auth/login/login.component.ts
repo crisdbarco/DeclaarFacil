@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import axios from 'axios';
@@ -36,8 +36,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -56,24 +55,17 @@ export class LoginComponent {
         if (response.data && response.data.access_token) {
           this.authService.saveToken(response.data.access_token);
 
-          if (this.authService.isAdmin()) {
-            this.router.navigate(['/requests']);
-          } else {
-            this.router.navigate(['/my-orders']);
-          }
+          this.router.navigate(['/']);
         } else {
           this.errorMessage = 'Falha no login, token não recebido';
-          this.cdr.detectChanges();
         }
       } catch (error) {
         this.errorMessage =
           'Não foi possível acessar a sua conta, tente novamente.';
-        this.cdr.detectChanges();
         console.error('Erro ao fazer login:', error);
       }
     } else {
       this.errorMessage = 'Formulário inválido. Verifique as credenciais.';
-      this.cdr.detectChanges();
     }
   }
 }
