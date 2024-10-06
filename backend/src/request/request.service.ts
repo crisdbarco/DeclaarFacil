@@ -7,9 +7,15 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request as RequestEntity, RequestStatus } from './request.entity';
-import { User } from '../users/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { DeclarationService } from 'src/declaration/declaration.service';
+
+export interface formatRequestType {
+  id: string;
+  name: string;
+  requestDate: Date;
+  status: RequestStatus;
+}
 
 @Injectable()
 export class RequestService {
@@ -20,6 +26,26 @@ export class RequestService {
     @InjectRepository(RequestEntity)
     private requestRepository: Repository<RequestEntity>,
   ) {}
+
+  async getRequests(userId: string): Promise<formatRequestType[]> {
+    const user = await this.usersService.findById(userId);
+    if (user && !user.is_admin) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action.',
+      );
+    }
+
+    const requests = await this.requestRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+
+    return requests.map((request: RequestEntity) => ({
+      id: request.id,
+      name: request.user.name,
+      requestDate: request.createdAt,
+      status: request.status,
+    }));
+  }
 
   async createRequest(
     declarationId: string,
@@ -55,9 +81,9 @@ export class RequestService {
     return this.requestRepository.save(request);
   }
 
-  async getRequestsByUser(user: User): Promise<RequestEntity[]> {
+  async getRequestsByUser(userId: string): Promise<RequestEntity[]> {
     return this.requestRepository.find({
-      where: { user: user },
+      where: { user: { id: userId } },
       order: { createdAt: 'DESC' }, // Ordena pela data de criação
     });
   }

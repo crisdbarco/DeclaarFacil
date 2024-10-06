@@ -12,49 +12,25 @@ import { FinalizeDeclarationConfirmComponent } from './dialog/finalize-declarati
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { DeclarationRequestService } from '../../../shared/services/declaration-request.service';
-
-const REQUEST_DATA: DeclarationRequestType[] = [
-  {
-    name: 'Carlos Eduardo Pereira',
-    requestDate: new Date('2024-01-15'), // Exemplo de data
-    status: 'pending',
-  },
-  {
-    name: 'Maria Clara Santos',
-    requestDate: new Date('2024-02-10'),
-    status: 'completed',
-  },
-  {
-    name: 'João Pedro Almeida',
-    requestDate: new Date('2024-03-05'),
-    status: 'processing',
-  },
-  {
-    name: 'Ana Beatriz Lima',
-    requestDate: new Date('2024-04-20'),
-    status: 'rejected',
-  },
-  {
-    name: 'Roberto Carlos',
-    requestDate: new Date('2024-05-12'),
-    status: 'pending',
-  },
-];
+import { RequestsService } from '../../../shared/services/api/requests.service';
 
 const RESPONSE_DATA: DeclarationRequestType[] = [
   {
+    id: 'abc',
     name: 'Carlos Eduardo Pereira',
     requestDate: new Date('2024-10-01'),
     status: 'completed',
     url: 'https://example.com/declaration/carlos-eduardo.pdf',
   },
   {
+    id: 'def',
     name: 'Ana Beatriz Silva',
     requestDate: new Date('2024-09-28'),
     status: 'completed',
     url: 'https://example.com/declaration/ana-beatriz.pdf',
   },
   {
+    id: 'ghi',
     name: 'José da Silva',
     requestDate: new Date('2024-09-27'),
     status: 'completed',
@@ -77,15 +53,35 @@ const RESPONSE_DATA: DeclarationRequestType[] = [
 })
 export class RequestsComponent {
   displayedColumns: string[] = ['name', 'requestDate', 'status', 'select'];
-  dataSource = REQUEST_DATA;
+  dataSource = [];
   selection = new SelectionModel<DeclarationRequestType>(true, []);
   dialog = inject(MatDialog);
   toast = inject(NgToastService);
 
   constructor(
     private router: Router,
-    private declarationRequestService: DeclarationRequestService
+    private declarationRequestService: DeclarationRequestService,
+    private requestsService: RequestsService
   ) {}
+
+  ngOnInit() {
+    this.getRequests();
+  }
+
+  getRequests(): void {
+    this.requestsService.getRequests().subscribe({
+      next: (data) => {
+        this.dataSource = data;
+      },
+      error: () => {
+        this.toast.danger(
+          'Tente novamente',
+          'Falha ao carregar as solicitações',
+          5000
+        );
+      },
+    });
+  }
 
   checkboxLabel(row: DeclarationRequestType): string {
     return `${
