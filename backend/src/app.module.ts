@@ -4,6 +4,8 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity'; //Importa a entidade User
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { RequestModule } from './request/request.module';
+import { DeclarationModule } from './declaration/declaration.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     UsersModule,
     AuthModule,
+    RequestModule,
+    DeclarationModule,
   ],
 })
 export class AppModule {}
