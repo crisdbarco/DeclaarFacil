@@ -1,51 +1,64 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  name?: string;
+  name: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsEmail()
-  email?: string;
+  email: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  cpf?: string;
+  cpf: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  rg?: string;
+  rg: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  issuing_agency?: string;
+  issuing_agency: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  postal_code?: string;
+  postal_code: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  street?: string;
+  street: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  house_number?: string;
+  house_number: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   complement?: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  neighborhood?: string;
+  neighborhood: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  city?: string;
+  city: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
-  state?: string;
+  state: string;
 }
