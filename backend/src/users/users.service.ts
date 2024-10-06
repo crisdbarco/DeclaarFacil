@@ -52,6 +52,11 @@ export class UsersService {
     return userWithoutPassword;
   }
 
+  async isAdmin(id: string): Promise<boolean> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    return !!user.is_admin;
+  }
+
   async findById(id: string): Promise<User | undefined> {
     return await this.usersRepository.findOne({ where: { id } });
   }

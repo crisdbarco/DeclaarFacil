@@ -11,11 +11,11 @@ import {
 
 @Entity('declarations')
 export class Declaration {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => User, { eager: true })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @Column()
@@ -24,9 +24,18 @@ export class Declaration {
   @Column()
   content: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }

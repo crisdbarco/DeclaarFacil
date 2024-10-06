@@ -6,12 +6,14 @@ import { DeclarationController } from './declaration.controller';
 import { User } from 'src/users/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Declaration, User])], // Importa o repositório Declaration
   controllers: [DeclarationController],
   providers: [
     DeclarationService,
+    UsersService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

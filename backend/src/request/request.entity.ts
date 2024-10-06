@@ -20,19 +20,19 @@ export enum RequestStatus {
 
 @Entity('requests')
 export class Request {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => User, { eager: true })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
   @ManyToOne(() => Declaration, { eager: true })
-  @JoinColumn({ name: 'declaration_id' })
+  @JoinColumn({ name: 'declaration_id', referencedColumnName: 'id' })
   declaration: Declaration;
 
   @ManyToOne(() => User, { eager: true, nullable: true })
-  @JoinColumn({ name: 'attendant_id' })
+  @JoinColumn({ name: 'attendant_id', referencedColumnName: 'id' })
   attendant: User;
 
   @Column({
@@ -45,9 +45,18 @@ export class Request {
   @Column()
   generation_date: Date;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }

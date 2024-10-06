@@ -32,7 +32,7 @@ export class RequestService {
   async getRequestsByUser(user: User): Promise<RequestEntity[]> {
     return this.requestRepository.find({
       where: { user: user },
-      order: { created_at: 'DESC' }, // Ordena pela data de criação
+      order: { createdAt: 'DESC' }, // Ordena pela data de criação
     });
   }
 
