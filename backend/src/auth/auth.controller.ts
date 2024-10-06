@@ -9,10 +9,13 @@ import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ description: 'Login user' })
+  @ApiOperation({
+    description:
+      'Realiza a autenticação de usuários na plataforma. O usuário deve fornecer um email e senha válidos. Se as credenciais estiverem corretas, um token será retornado, o qual poderá ser utilizado para acessar rotas protegidas do sistema.',
+  })
   @ApiBody({ type: LoginDto, description: 'Request body.' })
-  @Public() // Esta rota será pública, sem necessidade de autenticação
-  @Post('login') // Mapeia o método POST para /auth/login
+  @Public()
+  @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
