@@ -4,15 +4,15 @@ import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
   exp?: number;
-  role?: string;
   is_admin?: boolean;
+  name?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   saveToken(token: string): void {
     localStorage.setItem('token', token);
@@ -29,6 +29,19 @@ export class AuthService {
       }
     }
     return false;
+  }
+
+  getUserName(): string {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<DecodedToken>(token);
+        return decodedToken.name || '';
+      } catch (error) {
+        return '';
+      }
+    }
+    return '';
   }
 
   isAdmin(): boolean {

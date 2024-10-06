@@ -15,6 +15,7 @@ import { PublicLayoutComponent } from './core/layout/public-layout/public-layout
 import { PrivateLayoutComponent } from './core/layout/private-layout/private-layout.component';
 import { RequesterGuard } from './core/providers/requester.guard';
 import { AdminGuard } from './core/providers/admin.guard';
+import { CompletedDeclarationsComponent } from './routes/admin/completed-declarations/completed-declarations.component';
 
 export const routes: Routes = [
   {
@@ -44,13 +45,19 @@ export const routes: Routes = [
         path: 'my-orders',
         component: MyOrdersComponent,
         title: 'Minhas solicitações',
-        canActivate: [RequesterGuard]
+        canActivate: [RequesterGuard],
       },
       {
         path: 'requests',
         component: RequestsComponent,
         title: 'Solicitações',
-        canActivate: [AdminGuard]
+        canActivate: [AdminGuard],
+      },
+      {
+        path: 'completed-declarations',
+        component: CompletedDeclarationsComponent,
+        title: 'Declarações geradas',
+        canActivate: [AdminGuard],
       },
       // {
       //   path: 'declarations',

@@ -1,0 +1,33 @@
+<main class="completed-declarations-container">
+  <h1>Declaração de endereço</h1>
+
+  @if (!declarations.length) {
+  <p class="description">Nenhuma declaração a ser exibida.</p>
+  } @else {
+  <p class="description">As declarações foram geradas com sucesso!</p>
+
+  <ul class="request-list">
+    @for (declaration of declarations; track declaration.name) {
+    <li>
+      <span>
+        {{ declaration.name }}
+      </span>
+      <button
+        mat-flat-button
+        *ngIf="declaration.url"
+        (click)="downloadFile(declaration.url)"
+      >
+        <mat-icon>download</mat-icon>
+        Download PDF
+      </button>
+    </li>
+    }
+  </ul>
+  }
+
+  <div class="pos-button">
+    <a mat-flat-button class="back-button" routerLink="/requests"
+      ><mat-icon>arrow_back</mat-icon> Voltar para solicitações</a
+    >
+  </div>
+</main>

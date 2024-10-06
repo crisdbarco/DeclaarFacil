@@ -1,0 +1,41 @@
+.request-container {
+  padding: 20px 40px;
+
+  h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .description {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  table {
+    background-color: #fff;
+  }
+
+  th {
+    border: none;
+    background-color: #f7f7f7;
+  }
+
+  td {
+    border-color: var(--sys-surface-container);
+  }
+
+  .mat-column-select {
+    text-align: center;
+  }
+
+  .button-group {
+    margin: 24px 0 0 auto;
+    text-align: right;
+
+    button {
+      border-radius: 10px;
+      min-width: 120px;
+      margin-left: 12px;
+    }
+  }
+}

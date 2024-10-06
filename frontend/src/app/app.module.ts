@@ -9,6 +9,7 @@ import { routes } from './app.routes';
 import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.component';
 import { LoginComponent } from './routes/auth/login/login.component';
 import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.compon
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     NgOptimizedImage,
+    NgToastModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

@@ -14,6 +14,16 @@ export class RequestController {
 
   @ApiOperation({
     description:
+      'Retorna todas as solicitações de declarações realizadas. Apenas o usuário com privilégio de administrador pode visualizar as solicitações.',
+  })
+  @ApiBearerAuth('access-token')
+  @Get()
+  async getRequests(@Request() req) {
+    return this.requestService.getRequests(req.user.sub);
+  }
+
+  @ApiOperation({
+    description:
       'Permite que um usuário solicite a geração de uma nova declaração. O usuário deve estar autenticado para fazer a solicitação e não deve ser um admin.',
   })
   @ApiParam({
@@ -34,7 +44,6 @@ export class RequestController {
   @ApiBearerAuth('access-token')
   @Get('my-requests')
   async getUserRequests(@Request() req) {
-    const user = req.user; // O usuário autenticado
-    return this.requestService.getRequestsByUser(user.id);
+    return this.requestService.getRequestsByUser(req.user.sub);
   }
 }
