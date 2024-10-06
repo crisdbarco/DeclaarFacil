@@ -1,3 +1,4 @@
+// declaration.controller.ts
 import {
   Controller,
   Post,
@@ -8,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { DeclarationService } from './declaration.service';
+import { CreateDeclarationDto } from './dto/create-declaration.dto'; // Certifique-se de que o caminho está correto
 
 @Controller('declarations')
 export class DeclarationController {
@@ -15,13 +17,7 @@ export class DeclarationController {
 
   @UseGuards(JwtAuthGuard)
   @Post('create')
-  async create(@Body('content') content: string, @Request() req) {
-    if (!req.user.is_admin) {
-      throw new ForbiddenException(
-        'Apenas administradores podem criar declarações.',
-      );
-    }
-
-    return this.declarationService.createDeclaration(content);
+  async create(@Body() createDeclarationDto: CreateDeclarationDto) {
+    return this.declarationService.createDeclaration(createDeclarationDto);
   }
 }
