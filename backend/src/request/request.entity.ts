@@ -7,7 +7,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-// Certifique-se de que o caminho está correto
 import { User } from 'src/users/user.entity';
 import { Declaration } from 'src/declaration/declaration.entity';
 
@@ -33,7 +32,7 @@ export class Request {
 
   @ManyToOne(() => User, { eager: true, nullable: true })
   @JoinColumn({ name: 'attendant_id', referencedColumnName: 'id' })
-  attendant: User;
+  attendant?: User;
 
   @Column({
     type: 'enum',
@@ -42,8 +41,8 @@ export class Request {
   })
   status: RequestStatus;
 
-  @Column()
-  generation_date: Date;
+  @Column({ nullable: true })
+  generation_date?: Date;
 
   @CreateDateColumn({
     name: 'created_at',

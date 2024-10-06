@@ -22,6 +22,12 @@ export class DeclarationService {
     return await this.declarationRepository.find();
   }
 
+  async findById(declarationId: string): Promise<Declaration> {
+    return await this.declarationRepository.findOne({
+      where: { id: declarationId },
+    });
+  }
+
   async createDeclaration(
     userId: string,
     createDeclarationDto: CreateDeclarationDto,
