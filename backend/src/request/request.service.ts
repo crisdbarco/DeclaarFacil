@@ -145,6 +145,12 @@ export class RequestService {
       return format(date, "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
     };
 
+    const formatCep = (cep) => {
+      const sanitizedCep = cep.replace(/\D/g, '');
+      const paddedCep = sanitizedCep.padStart(8, '0');
+      return `${paddedCep.slice(0, 5)}-${paddedCep.slice(5)}`;
+    };
+
     for (const requestId of requestIds) {
       const requestData = await this.getRequestById(requestId);
 
@@ -162,6 +168,7 @@ export class RequestService {
         bairro: requestData.user.neighborhood,
         cidade: requestData.user.city,
         estado: requestData.user.state,
+        cep: formatCep(requestData.user.postal_code),
         data_atual: formatDate(new Date()),
         rg: requestData.user.rg,
         cpf: requestData.user.cpf,
@@ -181,35 +188,58 @@ export class RequestService {
 
       doc.pipe(writeStream);
 
-      doc.moveDown(8);
+      doc.moveDown(10);
 
       doc
         .font('Times-Bold')
         .fontSize(14)
         .text(declaration.title, { align: 'center' });
 
-      doc.moveDown(2);
+      doc.moveDown(4);
 
       const contentLines = modifiedContent.split('\\n');
       contentLines.forEach((line) => {
         doc.font('Times-Roman').fontSize(14).text(line.trim(), {
           align: 'justify',
           lineGap: 12,
-          indent: 30,
+          indent: 60,
         });
 
         doc.moveDown();
       });
 
+      doc.moveDown();
+
       const footerLines = footerContent.split('\\n');
       footerLines.forEach((line) => {
         doc.font('Times-Roman').fontSize(14).text(line, {
           align: 'center',
-          lineGap: 12,
+          lineGap: 0,
         });
       });
 
       doc.moveDown();
+
+      const oldBottomMargin = doc.page.margins.bottom;
+      doc.page.margins.bottom = 0;
+      doc
+        .font('Times-Roman')
+        .fontSize(9)
+        .text(
+          'Rua Francisca Júlia, nº 290 - Santana - CEP 02403-010 - São Paulo - SP - Tel.: (11) 2281.0300 - CNPJ 02.090.452/0001-37',
+          75,
+          doc.page.height - oldBottomMargin / 2,
+          {
+            align: 'center',
+            lineGap: 0,
+          },
+        );
+
+      doc.font('Times-Roman').fontSize(9).text('E-mail: adm@acnsf.org.br', {
+        align: 'center',
+        lineGap: 0,
+      });
+      doc.page.margins.bottom = oldBottomMargin;
 
       doc.end();
 
