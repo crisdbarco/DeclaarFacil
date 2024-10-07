@@ -19,10 +19,16 @@ export class Declaration {
   user: User;
 
   @Column()
+  type: string;
+
+  @Column()
   title: string;
 
   @Column()
   content: string;
+
+  @Column()
+  footer: string;
 
   @CreateDateColumn({
     name: 'created_at',
