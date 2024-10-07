@@ -42,6 +42,9 @@ export class Request {
   status: RequestStatus;
 
   @Column({ nullable: true })
+  url?: string;
+
+  @Column({ nullable: true })
   generation_date?: Date;
 
   @CreateDateColumn({

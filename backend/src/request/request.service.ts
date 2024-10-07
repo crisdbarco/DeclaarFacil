@@ -6,15 +6,21 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import * as PDFDocument from 'pdfkit';
+import * as fs from 'fs';
 import { Request as RequestEntity, RequestStatus } from './request.entity';
 import { UsersService } from 'src/users/users.service';
 import { DeclarationService } from 'src/declaration/declaration.service';
+import { GeneratePdfDto } from './dto/generate-pdf.dto';
 
-export interface formatRequestType {
+export interface FormatRequestType {
   id: string;
   name: string;
   requestDate: Date;
   status: RequestStatus;
+  url?: string;
 }
 
 @Injectable()
@@ -27,7 +33,7 @@ export class RequestService {
     private requestRepository: Repository<RequestEntity>,
   ) {}
 
-  async getRequests(userId: string): Promise<formatRequestType[]> {
+  async getRequests(userId: string): Promise<FormatRequestType[]> {
     const user = await this.usersService.findById(userId);
     if (user && !user.is_admin) {
       throw new ForbiddenException(
@@ -54,7 +60,7 @@ export class RequestService {
     const user = await this.usersService.findById(userId);
     if (user && user.is_admin) {
       throw new ForbiddenException(
-        'You do not have permission to perform this action.',
+        'You do not have permission to perform this action. 4',
       );
     }
 
@@ -101,5 +107,121 @@ export class RequestService {
     });
 
     return !!pendingRequest; // Retorna true se existir uma solicitação pendente
+  }
+
+  async getRequestById(requestId: string): Promise<RequestEntity> {
+    return await this.requestRepository.findOne({ where: { id: requestId } });
+  }
+
+  async generatePdf(
+    userId: string,
+    generatePdfDto: GeneratePdfDto,
+  ): Promise<FormatRequestType[]> {
+    const { declarationId, requestIds } = generatePdfDto;
+    const user = await this.usersService.findById(userId);
+    if (user && !user.is_admin) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action',
+      );
+    }
+
+    const declaration = await this.declarationService.findById(declarationId);
+    if (!declaration) {
+      throw new ForbiddenException('Declaration not found.');
+    }
+
+    const requests: FormatRequestType[] = [];
+
+    const replacePlaceholders = (
+      template: string,
+      data: Record<string, string>,
+    ): string => {
+      return Object.entries(data).reduce((result, [key, value]) => {
+        return result.replace(new RegExp(`{{${key}}}`, 'g'), value);
+      }, template);
+    };
+
+    const formatDate = (date: Date): string => {
+      return format(date, "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
+    };
+
+    for (const requestId of requestIds) {
+      const requestData = await this.getRequestById(requestId);
+
+      if (!requestData) {
+        throw new ForbiddenException(`Request not found for ID: ${requestId}`);
+      }
+
+      const userData = {
+        nome: requestData.user.name,
+        rua: requestData.user.street,
+        numero_casa: requestData.user.house_number,
+        complemento: requestData.user.complement
+          ? ` ${requestData.user.complement}`
+          : '',
+        bairro: requestData.user.neighborhood,
+        cidade: requestData.user.city,
+        estado: requestData.user.state,
+        data_atual: formatDate(new Date()),
+        rg: requestData.user.rg,
+        cpf: requestData.user.cpf,
+        orgao_emissor: requestData.user.issuing_agency,
+      };
+
+      const modifiedContent = replacePlaceholders(
+        declaration.content,
+        userData,
+      );
+
+      const footerContent = replacePlaceholders(declaration.footer, userData);
+
+      const doc = new PDFDocument({ size: 'A4' });
+
+      const writeStream = fs.createWriteStream('output.pdf');
+
+      doc.pipe(writeStream);
+
+      doc.moveDown(8);
+
+      doc
+        .font('Times-Bold')
+        .fontSize(14)
+        .text(declaration.title, { align: 'center' });
+
+      doc.moveDown(2);
+
+      const contentLines = modifiedContent.split('\\n');
+      contentLines.forEach((line) => {
+        doc.font('Times-Roman').fontSize(14).text(line.trim(), {
+          align: 'justify',
+          lineGap: 12,
+          indent: 30,
+        });
+
+        doc.moveDown();
+      });
+
+      const footerLines = footerContent.split('\\n');
+      footerLines.forEach((line) => {
+        doc.font('Times-Roman').fontSize(14).text(line, {
+          align: 'center',
+          lineGap: 12,
+        });
+      });
+
+      doc.moveDown();
+
+      doc.end();
+
+      writeStream.on('finish', () => {
+        console.log('PDF gerado com sucesso!');
+      });
+
+      writeStream.on('error', (error) => {
+        console.error('Erro ao salvar o PDF:', error);
+      });
+    }
+
+    return requests;
   }
 }
