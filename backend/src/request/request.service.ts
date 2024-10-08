@@ -10,10 +10,12 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as PDFDocument from 'pdfkit';
 import * as fs from 'fs';
+import * as path from 'path';
 import { Request as RequestEntity, RequestStatus } from './request.entity';
 import { UsersService } from 'src/users/users.service';
 import { DeclarationService } from 'src/declaration/declaration.service';
 import { GeneratePdfDto } from './dto/generate-pdf.dto';
+import { UploadFileService } from 'src/upload-file/upload-file.service';
 
 export interface FormatRequestType {
   id: string;
@@ -28,6 +30,7 @@ export class RequestService {
   constructor(
     private readonly usersService: UsersService,
     private readonly declarationService: DeclarationService,
+    private readonly uploadFileService: UploadFileService,
 
     @InjectRepository(RequestEntity)
     private requestRepository: Repository<RequestEntity>,
@@ -117,20 +120,13 @@ export class RequestService {
     userId: string,
     generatePdfDto: GeneratePdfDto,
   ): Promise<FormatRequestType[]> {
-    const { declarationId, requestIds } = generatePdfDto;
+    const { requestIds } = generatePdfDto;
     const user = await this.usersService.findById(userId);
     if (user && !user.is_admin) {
       throw new ForbiddenException(
         'You do not have permission to perform this action',
       );
     }
-
-    const declaration = await this.declarationService.findById(declarationId);
-    if (!declaration) {
-      throw new ForbiddenException('Declaration not found.');
-    }
-
-    const requests: FormatRequestType[] = [];
 
     const replacePlaceholders = (
       template: string,
@@ -151,40 +147,112 @@ export class RequestService {
       return `${paddedCep.slice(0, 5)}-${paddedCep.slice(5)}`;
     };
 
+    const tmpDir = path.join(__dirname, '..', '..', 'tmp');
+
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir);
+    }
+
+    const requests: FormatRequestType[] = [];
+
     for (const requestId of requestIds) {
-      const requestData = await this.getRequestById(requestId);
+      try {
+        const requestData = await this.getRequestById(requestId);
 
-      if (!requestData) {
-        throw new ForbiddenException(`Request not found for ID: ${requestId}`);
+        if (!requestData || requestData.status !== RequestStatus.PENDING) {
+          console.warn(
+            `Request ${requestId} not found or not in PENDING status`,
+          );
+          continue;
+        }
+
+        const declaration = await this.declarationService.findById(
+          requestData.declaration.id,
+        );
+        if (!declaration) {
+          console.warn(`Declaration ${requestData.declaration.id} not found`);
+          continue;
+        }
+
+        const userData = {
+          nome: requestData.user.name,
+          rua: requestData.user.street,
+          numero_casa: requestData.user.house_number,
+          complemento: requestData.user.complement
+            ? ` ${requestData.user.complement}`
+            : '',
+          bairro: requestData.user.neighborhood,
+          cidade: requestData.user.city,
+          estado: requestData.user.state,
+          cep: formatCep(requestData.user.postal_code),
+          data_atual: formatDate(new Date()),
+          rg: requestData.user.rg,
+          cpf: requestData.user.cpf,
+          orgao_emissor: requestData.user.issuing_agency,
+        };
+
+        const modifiedContent = replacePlaceholders(
+          declaration.content,
+          userData,
+        );
+
+        const footerContent = replacePlaceholders(declaration.footer, userData);
+
+        const fileName = `${requestId}_${Date.now().toString()}.pdf`;
+        const filePath = path.join(tmpDir, fileName);
+
+        const fileBuffer = await this.generatePdfFile(
+          filePath,
+          declaration,
+          modifiedContent,
+          footerContent,
+        );
+
+        const { signedUrl } = await this.uploadFileService.uploadStorage(
+          'declaration',
+          fileName,
+          fileBuffer,
+          'application/pdf',
+        );
+
+        await this.requestRepository.update(
+          { id: requestId },
+          {
+            url: signedUrl,
+            status: RequestStatus.PROCESSING,
+            generation_date: new Date(),
+            attendant: user,
+          },
+        );
+
+        const updatedRequest = await this.getRequestById(requestId);
+        requests.push({
+          id: requestId,
+          name: updatedRequest.user.name,
+          requestDate: updatedRequest.createdAt,
+          status: updatedRequest.status,
+          url: updatedRequest.url,
+        });
+
+        fs.unlinkSync(filePath);
+      } catch (error) {
+        console.error(`Erro ao processar a requisição ${requestId}:`, error);
       }
+    }
 
-      const userData = {
-        nome: requestData.user.name,
-        rua: requestData.user.street,
-        numero_casa: requestData.user.house_number,
-        complemento: requestData.user.complement
-          ? ` ${requestData.user.complement}`
-          : '',
-        bairro: requestData.user.neighborhood,
-        cidade: requestData.user.city,
-        estado: requestData.user.state,
-        cep: formatCep(requestData.user.postal_code),
-        data_atual: formatDate(new Date()),
-        rg: requestData.user.rg,
-        cpf: requestData.user.cpf,
-        orgao_emissor: requestData.user.issuing_agency,
-      };
+    return requests.filter((req) => req !== null);
+  }
 
-      const modifiedContent = replacePlaceholders(
-        declaration.content,
-        userData,
-      );
-
-      const footerContent = replacePlaceholders(declaration.footer, userData);
-
+  private async generatePdfFile(
+    filePath: string,
+    declaration: any,
+    modifiedContent: string,
+    footerContent: string,
+  ): Promise<Buffer> {
+    return new Promise<Buffer>((resolve, reject) => {
       const doc = new PDFDocument({ size: 'A4' });
 
-      const writeStream = fs.createWriteStream('output.pdf');
+      const writeStream = fs.createWriteStream(filePath);
 
       doc.pipe(writeStream);
 
@@ -244,14 +312,19 @@ export class RequestService {
       doc.end();
 
       writeStream.on('finish', () => {
-        console.log('PDF gerado com sucesso!');
-      });
+        try {
+          const fileBuffer = fs.readFileSync(filePath);
 
-      writeStream.on('error', (error) => {
-        console.error('Erro ao salvar o PDF:', error);
-      });
-    }
+          if (fileBuffer.length === 0) {
+            return reject(new Error(`O arquivo ${filePath} está vazio`));
+          }
 
-    return requests;
+          resolve(fileBuffer);
+        } catch (error) {
+          reject(`Erro ao ler o arquivo: ${error.message}`);
+        }
+      });
+      writeStream.on('error', reject);
+    });
   }
 }

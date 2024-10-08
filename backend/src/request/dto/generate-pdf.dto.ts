@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsString, ArrayMinSize, IsNotEmpty } from 'class-validator';
+import { IsArray, IsString, ArrayMinSize } from 'class-validator';
 
 export class GeneratePdfDto {
   @IsArray()
@@ -7,9 +7,4 @@ export class GeneratePdfDto {
   @ArrayMinSize(1)
   @ApiProperty({ description: 'Lista de IDs das solicitações' })
   requestIds: string[];
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ description: 'ID da declaração a ser gerada' })
-  declarationId: string;
 }

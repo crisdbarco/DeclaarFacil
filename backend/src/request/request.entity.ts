@@ -44,7 +44,7 @@ export class Request {
   @Column({ nullable: true })
   url?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'timestamptz' })
   generation_date?: Date;
 
   @CreateDateColumn({

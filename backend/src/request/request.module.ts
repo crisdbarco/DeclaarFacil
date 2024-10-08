@@ -9,9 +9,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UsersService } from 'src/users/users.service';
 import { DeclarationService } from 'src/declaration/declaration.service';
+import { UploadFileModule } from 'src/upload-file/upload-file.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Request, User, Declaration])], // Registrar o repositório
+  imports: [
+    UploadFileModule,
+    TypeOrmModule.forFeature([Request, User, Declaration]),
+  ],
   controllers: [RequestController],
   providers: [
     RequestService,
