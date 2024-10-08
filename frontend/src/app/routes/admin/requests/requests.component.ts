@@ -110,12 +110,36 @@ export class RequestsComponent {
   }
 
   generateDeclarations(pendingRequests: DeclarationRequestType[]) {
-    // TODO: Aqui falta a requisição de gerar a declaracão e precisa ser bloqueado o botão de gerar enquanto nao terminar a requisiçao
+    if (pendingRequests.length === 0) {
+      this.toast.info('Nenhuma declaração pendente para gerar.', 'Atenção');
+      return;
+    }
 
-    // TODO: substituir o valor pelo retorno da request
-    this.declarationRequestService.setGeneratedDeclarations(RESPONSE_DATA);
+    this.declarationRequestService.clean();
 
     this.router.navigate(['/completed-declarations']);
+
+    this.declarationRequestService.setTotalRequest(pendingRequests.length);
+
+    pendingRequests.forEach((request, index) => {
+      this.requestsService.generatePDF([request.id]).subscribe({
+        next: (response) => {
+          this.declarationRequestService.setGeneratedDeclarations(response);
+
+          this.declarationRequestService.setCurrentRequest(index + 1);
+
+          this.declarationRequestService.incrementSuccessCount();
+        },
+        error: () => {
+          this.declarationRequestService.incrementErrorCount();
+
+          this.declarationRequestService.setCurrentRequest(index + 1);
+        },
+        complete: () => {
+          this.declarationRequestService.setCurrentRequest(index + 1);
+        },
+      });
+    });
   }
 
   openFinalizeDeclarationConfirmDialog() {

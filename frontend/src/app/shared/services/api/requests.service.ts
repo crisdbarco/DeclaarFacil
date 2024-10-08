@@ -13,4 +13,14 @@ export class RequestsService {
   getRequests(): Observable<any> {
     return this.http.get(`${this.apiUrl}/requests`);
   }
+
+  generatePDF(requestIds: string[]): Observable<any> {
+    const url = `${this.apiUrl}/requests/generate-pdf`;
+
+    const payload = {
+      requestIds: requestIds,
+    };
+
+    return this.http.post<any>(url, payload);
+  }
 }

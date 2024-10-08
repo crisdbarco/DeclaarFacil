@@ -1,10 +1,21 @@
 <main class="completed-declarations-container">
-  <h1>Declaração de endereço</h1>
+  <h1>Declarações geradas</h1>
 
+  @if (progressValue !== 100) {
+  <mat-progress-bar
+    mode="determinate"
+    [value]="progressValue"
+  ></mat-progress-bar>
+  <p>{{ currentRequest }} de {{ totalRequest }} gerados...</p>
+  } @else {
+  <p>Declarações geradas com sucesso: {{ summary.success }}</p>
+  <p>Declarações com erro: {{ summary.error }}</p>
+  }
+
+  <!-- List -->
   @if (!declarations.length) {
   <p class="description">Nenhuma declaração a ser exibida.</p>
   } @else {
-  <p class="description">As declarações foram geradas com sucesso!</p>
 
   <ul class="request-list">
     @for (declaration of declarations; track declaration.name) {

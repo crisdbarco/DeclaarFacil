@@ -1,11 +1,13 @@
-import { Controller, Post, Request, Get, Param } from '@nestjs/common';
+import { Controller, Post, Request, Get, Param, Body } from '@nestjs/common';
 import { RequestService } from './request.service';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { GeneratePdfDto } from './dto/generate-pdf.dto';
 
 @ApiTags('requests')
 @Controller('requests')
@@ -32,7 +34,7 @@ export class RequestController {
     description: 'ID da declaração',
   })
   @ApiBearerAuth('access-token')
-  @Post(':declarationId')
+  @Post('create/:declarationId')
   async createRequest(@Request() req, @Param() param) {
     return this.requestService.createRequest(param.declarationId, req.user.sub);
   }
@@ -45,5 +47,17 @@ export class RequestController {
   @Get('my-requests')
   async getUserRequests(@Request() req) {
     return this.requestService.getRequestsByUser(req.user.sub);
+  }
+
+  @ApiOperation({
+    summary: 'Geração de declarações em PDF',
+    description:
+      'Permite a geração de declarações em formato PDF. Somente usuários com privilégios de administradores podem realizar esta ação.',
+  })
+  @ApiBody({ type: GeneratePdfDto, description: 'Request body.' })
+  @ApiBearerAuth('access-token')
+  @Post('/generate-pdf')
+  async update(@Body() generatePdfDto: GeneratePdfDto, @Request() req) {
+    return this.requestService.generatePdf(req.user.sub, generatePdfDto);
   }
 }

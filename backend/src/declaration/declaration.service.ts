@@ -64,8 +64,10 @@ export class DeclarationService {
       throw new NotFoundException('Declaration not found.');
     }
 
+    declaration.type = updateDeclarationDto.type ?? declaration.type;
     declaration.title = updateDeclarationDto.title ?? declaration.title;
     declaration.content = updateDeclarationDto.content ?? declaration.content;
+    declaration.footer = updateDeclarationDto.footer ?? declaration.footer;
 
     return this.declarationRepository.save(declaration);
   }

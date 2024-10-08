@@ -5,10 +5,20 @@ export class CreateDeclarationDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
+  type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
   title: string;
 
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   content: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  footer: string;
 }
