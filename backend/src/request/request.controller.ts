@@ -35,6 +35,17 @@ export class RequestController {
   }
 
   @ApiOperation({
+    summary: 'Retorna todas as solicitações com declaração gerada',
+    description:
+      'Retorna todas as solicitações de declarações realizadas. Apenas o usuário com privilégio de administrador pode visualizar as solicitações.',
+  })
+  @ApiBearerAuth('access-token')
+  @Get('with-declarations')
+  async getRequestsWithDeclarations(@Request() req) {
+    return this.requestService.getRequestsWithDeclarations(req.user.sub);
+  }
+
+  @ApiOperation({
     summary: 'Solicitar uma declaração',
     description:
       'Permite que um usuário solicite a geração de uma nova declaração. O usuário deve estar autenticado para fazer a solicitação e não deve ser um admin.',

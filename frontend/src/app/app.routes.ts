@@ -10,12 +10,12 @@ import { PageNotFoundComponent } from './routes/page-not-found/page-not-found.co
 import { LoginComponent } from './routes/auth/login/login.component';
 import { RegisterComponent } from './routes/auth/register/register.component';
 import { MyOrdersComponent } from './routes/requester/my-orders/my-orders.component';
-import { UsersComponent } from './routes/admin/users/users.component';
 import { PublicLayoutComponent } from './core/layout/public-layout/public-layout.component';
 import { PrivateLayoutComponent } from './core/layout/private-layout/private-layout.component';
 import { RequesterGuard } from './core/providers/requester.guard';
 import { AdminGuard } from './core/providers/admin.guard';
 import { CompletedDeclarationsComponent } from './routes/admin/completed-declarations/completed-declarations.component';
+import { SummaryComponent } from './routes/admin/requests/summary/summary.component';
 
 export const routes: Routes = [
   {
@@ -49,9 +49,20 @@ export const routes: Routes = [
       },
       {
         path: 'requests',
-        component: RequestsComponent,
         title: 'Solicitações',
         canActivate: [AdminGuard],
+        children: [
+          {
+            path: '',
+            component: RequestsComponent,
+            title: 'Gestão de solicitações',
+          },
+          {
+            path: 'summary',
+            component: SummaryComponent,
+            title: 'Declarações geradas',
+          },
+        ],
       },
       {
         path: 'completed-declarations',
