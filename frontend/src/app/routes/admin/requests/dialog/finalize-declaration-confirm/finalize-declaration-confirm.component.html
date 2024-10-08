@@ -1,4 +1,6 @@
-<h2 mat-dialog-title class="title">Finalizar solicitações</h2>
+<h2 mat-dialog-title class="title">
+  {{ type === "completed" ? "Finalizar" : "Rejeitar" }} solicitações
+</h2>
 <mat-dialog-content>
   @if (!processingRequests.length) {
   <p>
@@ -7,7 +9,10 @@
   </p>
   <p>Por favor, revise as solicitações e tente novamente.</p>
   } @else {
-  <p>Você está prestes a finalizar as solicitações os seguintes usuários:</p>
+  <p>
+    Você está prestes a {{ type === "completed" ? "finalizar" : "rejeitar" }} as
+    solicitações dos seguintes usuários:
+  </p>
 
   <ul class="request-list">
     @for (pendingRequest of processingRequests; track pendingRequest.name) {
@@ -16,8 +21,9 @@
   </ul>
 
   <p>
-    Tem certeza de que deseja continuar? Clique em "Confirmar" para prosseguir
-    ou "Cancelar" para revisar sua seleção.
+    Tem certeza de que deseja continuar? Esta ação é irreversível! <br />
+    Clique em "Confirmar" para prosseguir ou "Cancelar" para revisar sua
+    seleção.
   </p>
   }
 </mat-dialog-content>

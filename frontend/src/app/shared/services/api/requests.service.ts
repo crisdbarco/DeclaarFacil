@@ -23,4 +23,18 @@ export class RequestsService {
 
     return this.http.post<any>(url, payload);
   }
+
+  updateStatus(
+    requestIds: string[],
+    status: 'rejected' | 'completed'
+  ): Observable<any> {
+    const url = `${this.apiUrl}/requests/update-status`;
+
+    const payload = {
+      requestIds: requestIds,
+      status,
+    };
+
+    return this.http.patch<any>(url, payload);
+  }
 }
