@@ -14,6 +14,10 @@ export class RequestsService {
     return this.http.get(`${this.apiUrl}/requests`);
   }
 
+  getRequestsWithDeclarations(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/requests/with-declarations`);
+  }
+
   generatePDF(requestIds: string[]): Observable<any> {
     const url = `${this.apiUrl}/requests/generate-pdf`;
 

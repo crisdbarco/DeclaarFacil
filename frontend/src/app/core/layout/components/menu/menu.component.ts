@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class MenuComponent {
   isAdmin: boolean = false;
   currentOpenItem: string | null = null;
+  initialized: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -39,11 +40,15 @@ export class MenuComponent {
     this.isAdmin = this.authService.isAdmin();
     this.checkCurrentRoute();
 
+    this.initialized = true;
+
     // Força a detecção de mudanças após a inicialização
     this.cdr.detectChanges();
   }
 
   toggleMenu(menuItem: string | null): void {
+    if (!this.initialized) return;
+
     if (this.currentOpenItem === menuItem) {
       this.currentOpenItem = null;
     } else {
@@ -61,6 +66,8 @@ export class MenuComponent {
       currentRoute.includes('/users')
     ) {
       this.currentOpenItem = 'administracao';
+    } else if (currentRoute.includes('/requests')) {
+      this.currentOpenItem = 'requests';
     } else {
       this.currentOpenItem = null;
     }

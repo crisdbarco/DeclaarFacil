@@ -6,4 +6,5 @@ export interface DeclarationRequestType {
   requestDate: Date;
   status: requestStatus;
   url?: string;
+  generationDate?: Date;
 }
