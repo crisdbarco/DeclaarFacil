@@ -26,6 +26,7 @@ import { DeclarationRequestType } from '../../../../../shared/domain/requests.ty
 export class FinalizeDeclarationConfirmComponent {
   data = inject(MAT_DIALOG_DATA);
   processingRequests: DeclarationRequestType[] = [];
+  type: 'rejected' | 'completed' = 'completed';
 
   constructor(
     public dialogRef: MatDialogRef<FinalizeDeclarationConfirmComponent>
@@ -33,6 +34,7 @@ export class FinalizeDeclarationConfirmComponent {
 
   ngOnInit() {
     this.processingRequests = this.data.requests;
+    this.type = this.data.type;
   }
 
   onConfirm(): void {

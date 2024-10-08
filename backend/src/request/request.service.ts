@@ -16,6 +16,7 @@ import { UsersService } from 'src/users/users.service';
 import { DeclarationService } from 'src/declaration/declaration.service';
 import { GeneratePdfDto } from './dto/generate-pdf.dto';
 import { UploadFileService } from 'src/upload-file/upload-file.service';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 export interface FormatRequestType {
   id: string;
@@ -88,6 +89,51 @@ export class RequestService {
     });
 
     return this.requestRepository.save(request);
+  }
+
+  async updateStatus(
+    userId: string,
+    updateStatusDto: UpdateStatusDto,
+  ): Promise<FormatRequestType[]> {
+    const user = await this.usersService.findById(userId);
+    if (user && !user.is_admin) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action.',
+      );
+    }
+
+    const requests: FormatRequestType[] = [];
+    const { status, requestIds } = updateStatusDto;
+    for (const requestId of requestIds) {
+      const requestData = await this.getRequestById(requestId);
+
+      const completedStatus = [RequestStatus.COMPLETED, RequestStatus.REJECTED];
+
+      if (
+        completedStatus.includes(requestData.status) ||
+        (completedStatus.includes(status) &&
+          requestData.status !== RequestStatus.PROCESSING)
+      ) {
+        continue;
+      }
+
+      await this.requestRepository.update(
+        { id: requestId },
+        {
+          status,
+        },
+      );
+
+      const updatedRequest = await this.getRequestById(requestId);
+      requests.push({
+        id: requestId,
+        name: updatedRequest.user.name,
+        requestDate: updatedRequest.createdAt,
+        status: updatedRequest.status,
+      });
+    }
+
+    return requests;
   }
 
   async getRequestsByUser(userId: string): Promise<RequestEntity[]> {

@@ -14,30 +14,6 @@ import { NgToastService } from 'ng-angular-popup';
 import { DeclarationRequestService } from '../../../shared/services/declaration-request.service';
 import { RequestsService } from '../../../shared/services/api/requests.service';
 
-const RESPONSE_DATA: DeclarationRequestType[] = [
-  {
-    id: 'abc',
-    name: 'Carlos Eduardo Pereira',
-    requestDate: new Date('2024-10-01'),
-    status: 'completed',
-    url: 'https://example.com/declaration/carlos-eduardo.pdf',
-  },
-  {
-    id: 'def',
-    name: 'Ana Beatriz Silva',
-    requestDate: new Date('2024-09-28'),
-    status: 'completed',
-    url: 'https://example.com/declaration/ana-beatriz.pdf',
-  },
-  {
-    id: 'ghi',
-    name: 'José da Silva',
-    requestDate: new Date('2024-09-27'),
-    status: 'completed',
-    url: 'https://example.com/declaration/jose-da-silva.pdf',
-  },
-];
-
 @Component({
   selector: 'app-requests',
   standalone: true,
@@ -53,7 +29,7 @@ const RESPONSE_DATA: DeclarationRequestType[] = [
 })
 export class RequestsComponent {
   displayedColumns: string[] = ['name', 'requestDate', 'status', 'select'];
-  dataSource = [];
+  dataSource: DeclarationRequestType[] = [];
   selection = new SelectionModel<DeclarationRequestType>(true, []);
   dialog = inject(MatDialog);
   toast = inject(NgToastService);
@@ -142,7 +118,7 @@ export class RequestsComponent {
     });
   }
 
-  openFinalizeDeclarationConfirmDialog() {
+  openFinalizeDeclarationConfirmDialog(type: 'rejected' | 'completed') {
     const processingRequests: DeclarationRequestType[] =
       this.selection.selected.filter(
         (request: DeclarationRequestType) => request.status === 'processing'
@@ -151,23 +127,59 @@ export class RequestsComponent {
     let dialogRef = this.dialog.open(FinalizeDeclarationConfirmComponent, {
       data: {
         requests: processingRequests,
+        type,
       },
       width: '60%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.finalizeDeclarations(processingRequests);
+        this.finalizeDeclarations(processingRequests, type);
       }
     });
   }
 
-  finalizeDeclarations(processingRequests: DeclarationRequestType[]) {
-    // TODO: Aqui falta a requisição de finalizar a solicitação
-    this.toast.success(
-      'Sua declaração foi finalizada com sucesso!',
-      'Declaração Finalizada',
-      5000
-    );
+  finalizeDeclarations(
+    processingRequests: DeclarationRequestType[],
+    status: 'rejected' | 'completed'
+  ) {
+    const requestIds = processingRequests
+      .filter((request) => request.status === 'processing')
+      .map((request) => request.id);
+
+    if (requestIds.length === 0) {
+      this.toast.info('Nenhuma declaração para ser finalizada.', 'Atenção');
+      return;
+    }
+
+    this.requestsService.updateStatus(requestIds, status).subscribe({
+      next: (response) => {
+        response.forEach((updatedRequest: DeclarationRequestType) => {
+          const index = this.dataSource.findIndex(
+            (request) => request.id === updatedRequest.id
+          );
+
+          if (index !== -1) {
+            this.dataSource[index].status = updatedRequest.status;
+          }
+        });
+        this.toast.success(
+          `Sua declaração foi ${
+            status === 'completed' ? 'finalizada' : 'rejeitada'
+          } com sucesso!`,
+          `Declaração ${status === 'completed' ? 'Finalizada' : 'Rejeitada'}`,
+          5000
+        );
+      },
+      error: () => {
+        this.toast.warning(
+          `Houve um erro ao ${
+            status === 'completed' ? 'finalizada' : 'rejeitada'
+          } a declaração.`,
+          'Erro',
+          5000
+        );
+      },
+    });
   }
 }

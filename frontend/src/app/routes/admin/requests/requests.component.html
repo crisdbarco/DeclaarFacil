@@ -58,10 +58,18 @@
     <button
       mat-flat-button
       color="primary"
-      (click)="openFinalizeDeclarationConfirmDialog()"
+      (click)="openFinalizeDeclarationConfirmDialog('completed')"
       [disabled]="!selection.selected.length"
     >
       Finalizar solicitação
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="openFinalizeDeclarationConfirmDialog('rejected')"
+      [disabled]="!selection.selected.length"
+    >
+      Rejeitar solicitação
     </button>
   </div>
   }

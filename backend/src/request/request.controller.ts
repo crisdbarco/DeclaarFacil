@@ -1,4 +1,12 @@
-import { Controller, Post, Request, Get, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Request,
+  Get,
+  Param,
+  Body,
+  Patch,
+} from '@nestjs/common';
 import { RequestService } from './request.service';
 import {
   ApiBearerAuth,
@@ -8,6 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GeneratePdfDto } from './dto/generate-pdf.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 @ApiTags('requests')
 @Controller('requests')
@@ -59,5 +68,18 @@ export class RequestController {
   @Post('/generate-pdf')
   async update(@Body() generatePdfDto: GeneratePdfDto, @Request() req) {
     return this.requestService.generatePdf(req.user.sub, generatePdfDto);
+  }
+
+  @ApiOperation({
+    summary: 'Atualizar status das solicitações',
+    description:
+      'Permite a alteração do status de uma ou mais solicitações, podendo ser completada ou rejeitada.',
+  })
+  @Patch('update-status')
+  async updateRequestStatus(
+    @Body() updateStatusDto: UpdateStatusDto,
+    @Request() req,
+  ) {
+    return this.requestService.updateStatus(req.user.sub, updateStatusDto);
   }
 }
