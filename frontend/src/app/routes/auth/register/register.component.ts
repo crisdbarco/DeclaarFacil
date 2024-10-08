@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +21,7 @@ import { HttpClient } from '@angular/common/http';
     MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
+    NgxMaskDirective,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -83,12 +85,22 @@ export class RegisterComponent {
 
   ngOnInit(): void {
     this.registerForm.get('postal_code')?.valueChanges.subscribe((value) => {
-      if (value && value.length === 8) {
-        this.fetchAddressData(value);
+      const cleanedValue = value.replace(/\D/g, '');
+
+      if (cleanedValue && cleanedValue.length === 8) {
+        this.fetchAddressData(cleanedValue);
       } else {
         this.disableAddressFields();
       }
     });
+  }
+
+  removeMask(fieldName: string): void {
+    const value = this.registerForm.get(fieldName)?.value;
+    if (value) {
+      const cleanedValue = value.replace(/\D/g, '');
+      this.registerForm.get(fieldName)?.setValue(cleanedValue);
+    }
   }
 
   private fetchAddressData(postalCode: string): void {
@@ -129,12 +141,14 @@ export class RegisterComponent {
   }
 
   async onSubmit() {
+    this.removeMask('cpf');
+    this.removeMask('rg');
+    this.removeMask('postal_code');
+
+    const formData = this.registerForm.value;
     if (this.registerForm.valid) {
       try {
-        await axios.post(
-          'http://localhost:3000/users',
-          this.registerForm.value
-        );
+        await axios.post('http://localhost:3000/users', formData);
         this.router.navigate(['/success']);
       } catch (error) {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';

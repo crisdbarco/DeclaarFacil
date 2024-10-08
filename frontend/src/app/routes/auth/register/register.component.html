@@ -24,12 +24,22 @@
 
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>CPF</mat-label>
-        <input matInput formControlName="cpf" placeholder="Insira seu CPF" />
+        <input
+          matInput
+          formControlName="cpf"
+          placeholder="Insira seu CPF"
+          mask="000.000.000-00"
+        />
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>RG</mat-label>
-        <input matInput formControlName="rg" placeholder="Insira seu RG" />
+        <input
+          matInput
+          formControlName="rg"
+          placeholder="Insira seu RG"
+          mask="00.000.000-0"
+        />
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="fill">
@@ -47,6 +57,7 @@
           matInput
           formControlName="postal_code"
           placeholder="Insira seu código postal"
+          mask="00000-000"
         />
       </mat-form-field>
 
