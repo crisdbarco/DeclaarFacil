@@ -5,7 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, MoreThan, Not, Repository } from 'typeorm';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import * as PDFDocument from 'pdfkit';
@@ -24,6 +24,7 @@ export interface FormatRequestType {
   requestDate: Date;
   status: RequestStatus;
   url?: string;
+  generationDate?: Date;
 }
 
 @Injectable()
@@ -54,6 +55,36 @@ export class RequestService {
       name: request.user.name,
       requestDate: request.createdAt,
       status: request.status,
+    }));
+  }
+
+  async getRequestsWithDeclarations(
+    userId: string,
+  ): Promise<FormatRequestType[]> {
+    const user = await this.usersService.findById(userId);
+    if (user && !user.is_admin) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action.',
+      );
+    }
+
+    const now = new Date();
+    const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
+    const requests = await this.requestRepository.find({
+      where: {
+        url: Not(IsNull()),
+        generation_date: MoreThan(sevenDaysAgo),
+      },
+      order: { generation_date: 'DESC' },
+    });
+
+    return requests.map((request: RequestEntity) => ({
+      id: request.id,
+      name: request.user.name,
+      requestDate: request.createdAt,
+      url: request.url,
+      status: request.status,
+      generationDate: request.generation_date,
     }));
   }
 

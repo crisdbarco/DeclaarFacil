@@ -30,9 +30,11 @@ export class UploadFileService {
         contentType,
       });
     if (error) throw error;
+
+    const EXPIRATION_TIME_IN_MINUTES = 7 * 24 * 60 * 60;
     const { data } = await this.supabase.storage
       .from(bucket)
-      .createSignedUrl(uploadData.path, 10080);
+      .createSignedUrl(uploadData.path, EXPIRATION_TIME_IN_MINUTES);
     return { ...data };
   }
 
