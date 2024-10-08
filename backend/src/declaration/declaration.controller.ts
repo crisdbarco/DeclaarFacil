@@ -23,6 +23,7 @@ export class DeclarationController {
   constructor(private readonly declarationService: DeclarationService) {}
 
   @ApiOperation({
+    summary: 'Lista as declarações',
     description: 'Retorna todas as declarações.',
   })
   @ApiBearerAuth('access-token')
@@ -32,6 +33,7 @@ export class DeclarationController {
   }
 
   @ApiOperation({
+    summary: 'Criar uma declaração',
     description:
       'Permite que um usuário com privilégios de administrador crie uma nova declaração no sistema. O administrador deve fornecer as informações necessárias para a criação da declaração. Apenas usuários autenticados com permissão de admin podem acessar essa funcionalidade.',
   })
@@ -49,6 +51,7 @@ export class DeclarationController {
   }
 
   @ApiOperation({
+    summary: 'Atualizar uma declaração',
     description:
       'Atualizar o conteúdo de uma declaração. Somente usuários com privilégios de administradores podem realizar esta ação.',
   })

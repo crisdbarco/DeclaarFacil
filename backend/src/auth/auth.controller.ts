@@ -10,6 +10,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({
+    summary: 'Login do usuário',
     description:
       'Realiza a autenticação de usuários na plataforma. O usuário deve fornecer um email e senha válidos. Se as credenciais estiverem corretas, um token será retornado, o qual poderá ser utilizado para acessar rotas protegidas do sistema.',
   })

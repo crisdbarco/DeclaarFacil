@@ -20,6 +20,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({
+    summary: 'Dados do usuário',
     description: 'Retorna os dados do usuário logado.',
   })
   @ApiBearerAuth('access-token')
@@ -29,6 +30,7 @@ export class UsersController {
   }
 
   @ApiOperation({
+    summary: 'Criar um novo usuário',
     description:
       'Cria um novo usuário na plataforma. Se os dados forem válidos, o usuário será registrado e poderá fazer login na plataforma.',
   })
@@ -40,6 +42,7 @@ export class UsersController {
   }
 
   @ApiOperation({
+    summary: 'Atualiza as informações do usuário',
     description:
       'atualiza as informações de um usuário existente. A rota requer autenticação e só permite a atualização dos dados do próprio usuário.',
   })

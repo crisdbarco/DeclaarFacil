@@ -24,6 +24,7 @@ export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @ApiOperation({
+    summary: 'Retorna todas as solicitações',
     description:
       'Retorna todas as solicitações de declarações realizadas. Apenas o usuário com privilégio de administrador pode visualizar as solicitações.',
   })
@@ -34,6 +35,7 @@ export class RequestController {
   }
 
   @ApiOperation({
+    summary: 'Solicitar uma declaração',
     description:
       'Permite que um usuário solicite a geração de uma nova declaração. O usuário deve estar autenticado para fazer a solicitação e não deve ser um admin.',
   })
@@ -49,6 +51,7 @@ export class RequestController {
   }
 
   @ApiOperation({
+    summary: 'Lista de solicitações feitas pelo usuário logado',
     description:
       'Retorna todas as solicitações de declarações realizadas pelo usuário logado. Apenas o próprio usuário autenticado pode visualizar suas solicitações, proporcionando um histórico completo de suas declarações.',
   })
@@ -59,7 +62,7 @@ export class RequestController {
   }
 
   @ApiOperation({
-    summary: 'Geração de declarações em PDF',
+    summary: 'Gerar as declarações em PDF',
     description:
       'Permite a geração de declarações em formato PDF. Somente usuários com privilégios de administradores podem realizar esta ação.',
   })
