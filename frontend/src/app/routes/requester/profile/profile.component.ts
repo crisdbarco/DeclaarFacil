@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadUserData();
+
   }
 
   initializeForm() {
@@ -71,6 +72,11 @@ export class ProfileComponent implements OnInit {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
+      
+      // Atualiza o nome do usuário no AuthService
+      this.authService.updateUserName(response.data.name); // Atualiza o BehaviorSubject com o nome do usuário
+  
+      // Preenche o formulário com os dados do usuário
       this.profileForm.patchValue(response.data);
     } catch (error) {
       this.errorMessage = 'Erro ao carregar os dados do usuário.';

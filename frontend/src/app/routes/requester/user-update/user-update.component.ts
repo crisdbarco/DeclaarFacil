@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar'; // Importar MatSnackBar
-import { Router } from '@angular/router'; // Importar Router
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Importar MatProgressSpinner
+import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { Router } from '@angular/router'; 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-user-update',
@@ -16,14 +17,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
   templateUrl: './user-update.component.html',
   styleUrls: ['./user-update.component.css'],
   imports: [
-    // Importações standalone
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
     CommonModule,
-    MatProgressSpinnerModule // Adicionar MatProgressSpinner aqui
+    MatProgressSpinnerModule
   ]
 })
 export class UserUpdateComponent implements OnInit {
@@ -34,11 +34,16 @@ export class UserUpdateComponent implements OnInit {
     'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
   errorMessage: string | null = null;
 
-  constructor(private formBuilder: FormBuilder, private snackBar: MatSnackBar, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder, 
+    private snackBar: MatSnackBar, 
+    private router: Router,
+    private authService: AuthService // Injetar AuthService
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadUserData(); // Carrega os dados do usuário ao inicializar a página
+    this.loadUserData(); 
   }
 
   initializeForm() {
@@ -58,17 +63,19 @@ export class UserUpdateComponent implements OnInit {
     });
   }
 
-  // Requisição GET para buscar os dados do usuário
   async loadUserData() {
     try {
       this.isLoading = true;
       const response = await axios.get('http://localhost:3000/users', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` // Envia o token JWT
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
       
-      // Atualiza o formulário com os dados do usuário
+      // Atualiza o nome do usuário no AuthService
+      this.authService.updateUserName(response.data.name); // Atualiza o BehaviorSubject com o nome do usuário
+  
+      // Preenche o formulário com os dados do usuário
       this.updateForm.patchValue(response.data);
     } catch (error) {
       this.errorMessage = 'Erro ao carregar os dados do usuário.';
@@ -77,7 +84,6 @@ export class UserUpdateComponent implements OnInit {
     }
   }
 
-  // Método para submeter o formulário e enviar os dados atualizados
   async onSubmit() {
     if (this.updateForm.invalid) return;
 
@@ -87,17 +93,18 @@ export class UserUpdateComponent implements OnInit {
 
       await axios.put('http://localhost:3000/users/', updatedData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` // Envia o token JWT
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
 
-      // Exibir toast de sucesso e redirecionar para a página de visualização
+      this.authService.updateUserName(updatedData.name); // Atualiza o nome do usuário no AuthService
+
       this.snackBar.open('Dados atualizados com sucesso!', 'Fechar', {
         duration: 3000,
         verticalPosition: 'top',
         horizontalPosition: 'right',
       });
-      this.router.navigate(['/profile']); // Redireciona para a página de visualização de perfil
+      this.router.navigate(['/profile']);
     } catch (error) {
       this.errorMessage = 'Erro ao atualizar os dados.';
     } finally {
