@@ -70,7 +70,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -129,7 +128,8 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // TODO: logout
+        this.authService.logout();
+        this.router.navigate(['/login']);
       }
     });
   }
