@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -16,14 +17,23 @@ import { AuthService } from '../../../../shared/services/auth.service';
     NgOptimizedImage,
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
+  styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   username: string = '';
+  private usernameSubscription!: Subscription;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.username = this.authService.getUserName();
+    this.usernameSubscription = this.authService.getUsernameObservable().subscribe(name => {
+      this.username = name; // Atualiza o username quando houver mudanças
+    });
+
+    this.username = this.authService.getUserName(); // Inicializa o username
+  }
+
+  ngOnDestroy(): void {
+    this.usernameSubscription.unsubscribe(); // Limpa a assinatura ao destruir o componente
   }
 }

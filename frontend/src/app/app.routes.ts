@@ -15,6 +15,8 @@ import { PrivateLayoutComponent } from './core/layout/private-layout/private-lay
 import { RequesterGuard } from './core/providers/requester.guard';
 import { AdminGuard } from './core/providers/admin.guard';
 import { CompletedDeclarationsComponent } from './routes/admin/completed-declarations/completed-declarations.component';
+import { UserUpdateComponent } from './routes/requester/user-update/user-update.component';
+import { ProfileComponent } from './routes/requester/profile/profile.component';
 import { SummaryComponent } from './routes/admin/requests/summary/summary.component';
 
 export const routes: Routes = [
@@ -70,6 +72,19 @@ export const routes: Routes = [
         title: 'Declarações geradas',
         canActivate: [AdminGuard],
       },
+      {
+        path: 'user-update',
+        component: UserUpdateComponent,
+        title: 'Atualizar meus dados',
+        canActivate: [RequesterGuard],
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        title: 'Meu perfil',
+        canActivate: [RequesterGuard],
+      },
+
       // {
       //   path: 'declarations',
       //   component: DeclarationsComponent,

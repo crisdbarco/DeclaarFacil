@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
@@ -12,10 +13,13 @@ interface DecodedToken {
   providedIn: 'root',
 })
 export class AuthService {
+  private usernameSubject = new BehaviorSubject<string>(this.getUserName()); // Criar um BehaviorSubject para o nome do usuário
+
   constructor(private router: Router) {}
 
   saveToken(token: string): void {
     localStorage.setItem('token', token);
+    this.usernameSubject.next(this.getUserName()); // Atualiza o nome do usuário quando o token é salvo
   }
 
   isLoggedIn(): boolean {
@@ -59,6 +63,17 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    this.usernameSubject.next(''); // Notifica que o nome do usuário está vazio
     this.router.navigate(['/login']);
+  }
+
+  // Método para retornar um Observable do nome do usuário
+  getUsernameObservable() {
+    return this.usernameSubject.asObservable();
+  }
+
+  // Método para atualizar o nome do usuário
+  updateUserName(name: string) {
+    this.usernameSubject.next(name);
   }
 }
