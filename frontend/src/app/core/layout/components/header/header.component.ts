@@ -5,6 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { Subscription } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ import { Subscription } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     NgOptimizedImage,
+    RouterLink,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
@@ -26,9 +28,11 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.usernameSubscription = this.authService.getUsernameObservable().subscribe(name => {
-      this.username = name; // Atualiza o username quando houver mudanças
-    });
+    this.usernameSubscription = this.authService
+      .getUsernameObservable()
+      .subscribe((name) => {
+        this.username = name; // Atualiza o username quando houver mudanças
+      });
 
     this.username = this.authService.getUserName(); // Inicializa o username
   }

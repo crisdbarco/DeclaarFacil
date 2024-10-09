@@ -73,16 +73,21 @@ export const routes: Routes = [
         canActivate: [AdminGuard],
       },
       {
-        path: 'user-update',
-        component: UserUpdateComponent,
-        title: 'Atualizar meus dados',
-        canActivate: [RequesterGuard],
-      },
-      {
         path: 'profile',
-        component: ProfileComponent,
         title: 'Meu perfil',
         canActivate: [RequesterGuard],
+        children: [
+          {
+            path: '',
+            component: ProfileComponent,
+            title: 'Meu Perfil',
+          },
+          {
+            path: 'update',
+            component: UserUpdateComponent,
+            title: 'Atualizar meus dados',
+          },
+        ],
       },
 
       // {
