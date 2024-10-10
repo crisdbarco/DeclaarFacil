@@ -7,11 +7,11 @@ import { MatTableModule } from '@angular/material/table';
 import { RequestsService } from '../../../shared/services/api/requests.service';
 
 @Component({
-  selector: 'app-solicitacao',
+  selector: 'app-request',
   standalone: true,
   imports: [CommonModule, MatTableModule],
-  templateUrl: './solicitacao.component.html',
-  styleUrl: './solicitacao.component.css',
+  templateUrl: './request.component.html',
+  styleUrl: './request.component.css',
 })
 export class SolicitacaoComponent implements OnInit {
   requests = []; // Lista de solicitações do usuário
