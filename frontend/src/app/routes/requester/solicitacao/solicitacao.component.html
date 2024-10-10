@@ -1,5 +1,23 @@
-<div class="my-orders-container">
-  <h1>Minhas Solicitações</h1>
+<div class="solicitacao-container">
+  <div class="header-section">
+    <h1>Minhas Solicitações</h1>
+
+    <!-- Botão para solicitar nova declaração -->
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="isRequestInProgress"
+      (click)="openRequestDialog()"
+    >
+      Solicitar Declaração
+    </button>
+  </div>
+
+  <!-- Exibição de mensagem quando o botão estiver desabilitado -->
+  <p *ngIf="isRequestInProgress" class="error-message">
+    Você só pode solicitar uma nova declaração quando a solicitação anterior for
+    concluída ou rejeitada.
+  </p>
 
   <!-- Tabela para listagem de solicitações -->
   <mat-table [dataSource]="requests" class="mat-elevation-z8">
@@ -26,34 +44,4 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
-
-  <!-- Mensagem de erro -->
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-  <!-- Botão para solicitar nova declaração -->
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="
-      isRequestInProgress ||
-      (requests.length > 0 &&
-        requests[requests.length - 1].status === 'processing')
-    "
-    (click)="openRequestDialog()"
-  >
-    Solicitar Nova Declaração
-  </button>
-
-  <!-- Exibir mensagem se o botão estiver desabilitado -->
-  <p
-    *ngIf="
-      isRequestInProgress ||
-      (requests.length > 0 &&
-        requests[requests.length - 1].status === 'processing')
-    "
-    class="error-message"
-  >
-    Você só pode solicitar uma nova declaração quando a solicitação anterior for
-    concluída ou rejeitada.
-  </p>
 </div>
