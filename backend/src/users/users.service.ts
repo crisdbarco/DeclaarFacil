@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
@@ -114,5 +114,30 @@ export class UsersService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userWithoutPassword } = updatedUser;
     return userWithoutPassword;
+  }
+
+  async deactivateUser(id: string, password: string): Promise<void> {
+    const user = await this.findById(id);
+    
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Verificar se a senha fornecida está correta
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new ConflictException('Invalid password');
+    }
+
+    // Criptografar CPF e RG
+    const encryptedCpf = await bcrypt.hash(user.cpf, 10);
+    const encryptedRg = await bcrypt.hash(user.rg, 10);
+
+    // Marcar o usuário como inativo e atualizar CPF e RG
+    await this.usersRepository.update(id, {
+      is_active: false,
+      cpf: encryptedCpf,
+      rg: encryptedRg,
+    });
   }
 }
