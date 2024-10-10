@@ -14,10 +14,19 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findByEmail(email); // método para encontrar o usuário pelo email
-    if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
+    
+    // Verifica se o usuário existe e se está ativo
+    if (!user || !user.is_active) {
+      throw new UnauthorizedException('Invalid credentials or inactive account');
     }
-    return null;
+
+    // Verifica se a senha está correta
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return null;
+    }
+
+    return user;
   }
 
   async login(loginDto: LoginDto) {
@@ -26,12 +35,16 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    // Cria o payload do JWT
     const payload = {
       name: user.name,
       email: user.email,
       sub: user.id,
       is_admin: user.is_admin,
     };
+
+    // Gera o token JWT
     return {
       access_token: this.jwtService.sign(payload),
     };
