@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import axios from 'axios';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,10 +6,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../shared/services/auth.service';
+import { DeleteUserComponent } from './dialog/delete-user/delete-user.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CpfPipe } from '../../../core/pipes/cpf.pipe';
+import { RgPipe } from '../../../core/pipes/rg.pipe';
+import { CepPipe } from '../../../core/pipes/cep.pipe';
 
 @Component({
   selector: 'app-profile',
@@ -24,19 +28,47 @@ import { AuthService } from '../../../shared/services/auth.service';
     MatButtonModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-  ]
+    CpfPipe,
+    RgPipe,
+    CepPipe,
+  ],
 })
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   isLoading = false;
-  states: string[] = ['AC', 'AL', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 
-    'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 
-    'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+  states: string[] = [
+    'AC',
+    'AL',
+    'AP',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MG',
+    'MS',
+    'MT',
+    'PA',
+    'PB',
+    'PE',
+    'PI',
+    'PR',
+    'RJ',
+    'RN',
+    'RO',
+    'RR',
+    'RS',
+    'SC',
+    'SE',
+    'SP',
+    'TO',
+  ];
   errorMessage: string | null = null;
+  dialog = inject(MatDialog);
 
   constructor(
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -44,7 +76,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadUserData();
-
   }
 
   initializeForm() {
@@ -69,13 +100,13 @@ export class ProfileComponent implements OnInit {
       this.isLoading = true;
       const response = await axios.get('http://localhost:3000/users', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
-      
+
       // Atualiza o nome do usuário no AuthService
       this.authService.updateUserName(response.data.name); // Atualiza o BehaviorSubject com o nome do usuário
-  
+
       // Preenche o formulário com os dados do usuário
       this.profileForm.patchValue(response.data);
     } catch (error) {
@@ -86,6 +117,19 @@ export class ProfileComponent implements OnInit {
   }
 
   onEdit() {
-    this.router.navigate(['/user-update']);
+    this.router.navigate(['/profile/update']);
+  }
+
+  openGenerateDeclarationConfirmDialog() {
+    let dialogRef = this.dialog.open(DeleteUserComponent, {
+      width: '60%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

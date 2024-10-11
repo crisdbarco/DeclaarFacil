@@ -26,13 +26,17 @@
     <div class="cpf-rg-emissor-group">
       <div class="form-field">
         <p class="field-label">CPF</p>
-        <p class="field-value">{{ profileForm.get("cpf")?.value ?? "N/A" }}</p>
+        <p class="field-value">
+          {{ (profileForm.get("cpf")?.value | cpf) ?? "N/A" }}
+        </p>
       </div>
 
       <!-- Campo RG -->
       <div class="form-field">
         <p class="field-label">RG</p>
-        <p class="field-value">{{ profileForm.get("rg")?.value ?? "N/A" }}</p>
+        <p class="field-value">
+          {{ (profileForm.get("rg")?.value | rg) ?? "N/A" }}
+        </p>
       </div>
 
       <!-- Campo Órgão Emissor -->
@@ -93,13 +97,21 @@
       <div class="form-field">
         <p class="field-label">Código Postal</p>
         <p class="field-value">
-          {{ profileForm.get("postal_code")?.value ?? "N/A" }}
+          {{ (profileForm.get("postal_code")?.value | cep) ?? "N/A" }}
         </p>
       </div>
     </div>
 
     <button mat-flat-button color="primary" (click)="onEdit()">
       Editar meus dados
+    </button>
+
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="openGenerateDeclarationConfirmDialog()"
+    >
+      Excluir perfil
     </button>
   </div>
 </main>

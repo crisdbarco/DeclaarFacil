@@ -28,15 +28,30 @@
         </mat-list-item>
       </mat-expansion-panel>
 
-      <mat-list-item *ngIf="!isAdmin">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example home icon"
-          fontIcon="home"
-          class="icon"
-        ></mat-icon>
-        <a mat-line [routerLink]="['/my-orders']">Meus pedidos</a>
+      @if (!isAdmin) {
+      <mat-list-item>
+        <div class="align-item">
+          <mat-icon
+            aria-hidden="true"
+            aria-label=""
+            fontIcon="list"
+            class="icon"
+          ></mat-icon>
+          <a mat-line [routerLink]="['/my-orders']">Meus pedidos</a>
+        </div>
       </mat-list-item>
+      <mat-list-item>
+        <div class="align-item">
+          <mat-icon
+            aria-hidden="true"
+            aria-label=""
+            fontIcon="manage_accounts"
+            class="icon"
+          ></mat-icon>
+          <a mat-line [routerLink]="['/profile']">Meu perfil</a>
+        </div>
+      </mat-list-item>
+      }
 
       <!-- <mat-expansion-panel [expanded]="currentOpenItem === 'declaracoes'" (opened)="toggleMenu('declaracoes')"
         (closed)="toggleMenu(null)">
@@ -78,13 +93,15 @@
       </mat-expansion-panel> -->
 
       <mat-list-item>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Example home icon"
-          fontIcon="logout"
-          class="icon"
-        ></mat-icon>
-        <a mat-line (click)="logout()">Sair</a>
+        <div class="align-item">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="logout"
+            class="icon"
+          ></mat-icon>
+          <a mat-line (click)="logout()">Sair</a>
+        </div>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>

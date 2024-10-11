@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users') // Tabela 'users' no banco de dados
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,10 +17,11 @@ export class User {
   @Column({ unique: true, length: 100 })
   email: string;
 
-  @Column({ unique: true, length: 11 })
+  // Aumentei o tamanho dos campos cpf e rg para a criptografia
+  @Column({ unique: true, length: 255 })
   cpf: string;
 
-  @Column({ unique: true, length: 12 })
+  @Column({ unique: true, length: 255 })
   rg: string;
 
   @Column({ length: 200 })
@@ -52,6 +53,10 @@ export class User {
 
   @Column({ default: false })
   is_admin: boolean;
+
+  // Novo campo para indicar se o usuário está ativo ou não
+  @Column({ default: true })
+  is_active: boolean;
 
   @CreateDateColumn({
     name: 'created_at',

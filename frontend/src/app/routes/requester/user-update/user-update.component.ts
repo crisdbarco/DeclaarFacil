@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms'; 
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import axios from 'axios';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar'; 
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../shared/services/auth.service';
+import { NgToastService } from 'ng-angular-popup';
+import { NgxMaskDirective } from 'ngx-mask';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-update',
@@ -23,27 +30,80 @@ import { AuthService } from '../../../shared/services/auth.service';
     MatButtonModule,
     MatSelectModule,
     CommonModule,
-    MatProgressSpinnerModule
-  ]
+    MatProgressSpinnerModule,
+    NgxMaskDirective,
+  ],
 })
 export class UserUpdateComponent implements OnInit {
   updateForm!: FormGroup;
   isLoading = false;
-  states: string[] = ['AC', 'AL', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 
-    'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 
-    'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'];
+  states: string[] = [
+    'AC',
+    'AL',
+    'AP',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MG',
+    'MS',
+    'MT',
+    'PA',
+    'PB',
+    'PE',
+    'PI',
+    'PR',
+    'RJ',
+    'RN',
+    'RO',
+    'RR',
+    'RS',
+    'SC',
+    'SE',
+    'SP',
+    'TO',
+  ];
   errorMessage: string | null = null;
+  toast = inject(NgToastService);
+  private isDataLoaded: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private snackBar: MatSnackBar, 
+    private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService // Injetar AuthService
+    private authService: AuthService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadUserData(); 
+    this.loadUserData();
+
+    this.updateForm.get('postal_code')?.valueChanges.subscribe((value) => {
+      const cleanedValue = value.replace(/\D/g, '');
+
+      if (this.isDataLoaded && cleanedValue && cleanedValue.length === 8) {
+        this.fetchAddressData(cleanedValue);
+      }
+    });
+  }
+
+  private fetchAddressData(postalCode: string): void {
+    this.http.get(`https://opencep.com/v1/${postalCode}`).subscribe({
+      next: (response: any) => {
+        this.updateForm.patchValue({
+          street: response.logradouro,
+          neighborhood: response.bairro,
+          complement: response.complemento,
+          city: response.localidade,
+          state: response.uf,
+        });
+      },
+      error: (error) => {
+        console.error('Erro ao buscar dados do endereço:', error);
+      },
+    });
   }
 
   initializeForm() {
@@ -68,19 +128,29 @@ export class UserUpdateComponent implements OnInit {
       this.isLoading = true;
       const response = await axios.get('http://localhost:3000/users', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
-      
+
       // Atualiza o nome do usuário no AuthService
       this.authService.updateUserName(response.data.name); // Atualiza o BehaviorSubject com o nome do usuário
-  
+
       // Preenche o formulário com os dados do usuário
       this.updateForm.patchValue(response.data);
+
+      this.isDataLoaded = true;
     } catch (error) {
       this.errorMessage = 'Erro ao carregar os dados do usuário.';
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  removeMask(fieldName: string): void {
+    const value = this.updateForm.get(fieldName)?.value;
+    if (value) {
+      const cleanedValue = value.replace(/\D/g, '');
+      this.updateForm.get(fieldName)?.setValue(cleanedValue);
     }
   }
 
@@ -89,21 +159,21 @@ export class UserUpdateComponent implements OnInit {
 
     try {
       this.isLoading = true;
+      this.removeMask('cpf');
+      this.removeMask('rg');
+      this.removeMask('postal_code');
+
       const updatedData = this.updateForm.value;
 
       await axios.put('http://localhost:3000/users/', updatedData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       this.authService.updateUserName(updatedData.name); // Atualiza o nome do usuário no AuthService
 
-      this.snackBar.open('Dados atualizados com sucesso!', 'Fechar', {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      });
+      this.toast.success('Dados atualizados com sucesso!', 'Fechar', 3000);
       this.router.navigate(['/profile']);
     } catch (error) {
       this.errorMessage = 'Erro ao atualizar os dados.';

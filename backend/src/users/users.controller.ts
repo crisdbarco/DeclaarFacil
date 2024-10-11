@@ -5,6 +5,7 @@ import {
   Put,
   NotFoundException,
   Request,
+  Delete,
   Get,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -13,6 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/public.decorator';
 import { User } from './user.entity';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -44,7 +46,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Atualiza as informações do usuário',
     description:
-      'atualiza as informações de um usuário existente. A rota requer autenticação e só permite a atualização dos dados do próprio usuário.',
+      'Atualiza as informações de um usuário existente. A rota requer autenticação e só permite a atualização dos dados do próprio usuário.',
   })
   @ApiBody({
     type: UpdateUserDto,
@@ -63,5 +65,22 @@ export class UsersController {
     }
 
     return user;
+  }
+
+  @ApiOperation({
+    summary: 'Desativar conta de usuário',
+    description:
+      'Permite que o usuário autenticado desative sua conta, inativando-a no sistema. Exige a senha para confirmação.',
+  })
+  @ApiBody({ type: DeleteAccountDto })
+  @ApiBearerAuth('access-token')
+  @Delete('inactivate')
+  async deactivateUser(
+    @Request() req,
+    @Body('password') password: string,
+  ): Promise<{ message: string }> {
+    await this.usersService.deactivateUser(req.user.sub, password);
+
+    return { message: 'Conta desativada com sucesso.' };
   }
 }

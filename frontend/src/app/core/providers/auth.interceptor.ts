@@ -13,6 +13,10 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    if (req.url.includes('opencep.com')) {
+      return next.handle(req);
+    }
+
     const token = localStorage.getItem('token');
 
     if (token) {
