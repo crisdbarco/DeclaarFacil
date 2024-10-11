@@ -27,6 +27,15 @@ export interface FormatRequestType {
   generationDate?: Date;
 }
 
+export interface UserRequestType {
+  id: string;
+  declaration: string;
+  attendantName?: string;
+  requestDate: Date;
+  status: RequestStatus;
+  generationDate?: Date;
+}
+
 @Injectable()
 export class RequestService {
   constructor(
@@ -167,11 +176,27 @@ export class RequestService {
     return requests;
   }
 
-  async getRequestsByUser(userId: string): Promise<RequestEntity[]> {
-    return this.requestRepository.find({
+  async getRequestsByUser(userId: string): Promise<UserRequestType[]> {
+    const user = await this.usersService.findById(userId);
+    if (user && user.is_admin) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action.',
+      );
+    }
+
+    const requests = await this.requestRepository.find({
       where: { user: { id: userId } },
-      order: { createdAt: 'DESC' }, // Ordena pela data de criação
+      order: { createdAt: 'DESC' },
     });
+
+    return requests.map((request: RequestEntity) => ({
+      id: request.id,
+      declaration: request.declaration.type,
+      attendantName: request.attendant?.name ?? '',
+      requestDate: request.createdAt,
+      status: request.status,
+      generationDate: request.generation_date,
+    }));
   }
 
   async checkForPendingRequests(

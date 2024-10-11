@@ -14,6 +14,10 @@ export class RequestsService {
     return this.http.get(`${this.apiUrl}/requests`);
   }
 
+  getUserRequests(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/requests/my-requests`);
+  }
+
   getRequestsWithDeclarations(): Observable<any> {
     return this.http.get(`${this.apiUrl}/requests/with-declarations`);
   }
@@ -40,5 +44,11 @@ export class RequestsService {
     };
 
     return this.http.patch<any>(url, payload);
+  }
+
+  createRequest(declarationId: string): Observable<any> {
+    const url = `${this.apiUrl}/requests/create/${declarationId}`;
+
+    return this.http.post<any>(url, {});
   }
 }
