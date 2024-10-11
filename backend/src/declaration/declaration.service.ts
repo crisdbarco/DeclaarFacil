@@ -9,6 +9,11 @@ import { Declaration } from './declaration.entity';
 import { CreateDeclarationDto } from './dto/create-declaration.dto'; // Importar o DTO
 import { UsersService } from 'src/users/users.service';
 
+export interface FormatDeclarationTypes {
+  id: string;
+  type: string;
+}
+
 @Injectable()
 export class DeclarationService {
   constructor(
@@ -20,6 +25,15 @@ export class DeclarationService {
 
   async getDeclarations(): Promise<Declaration[]> {
     return await this.declarationRepository.find();
+  }
+
+  async getDeclarationsType(): Promise<FormatDeclarationTypes[]> {
+    const declarations = await this.declarationRepository.find();
+
+    return declarations.map((declaration) => ({
+      id: declaration.id,
+      type: declaration.type,
+    }));
   }
 
   async findById(declarationId: string): Promise<Declaration> {

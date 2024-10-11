@@ -8,3 +8,12 @@ export interface DeclarationRequestType {
   url?: string;
   generationDate?: Date;
 }
+
+export interface UserRequest {
+  id: string;
+  declaration: string;
+  attendantName?: string;
+  requestDate: Date;
+  status: requestStatus;
+  generationDate?: Date;
+}
