@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgToastService } from 'ng-angular-popup';
+import { UsersService } from '../../../../../shared/services/api/users.service';
 
 @Component({
   selector: 'app-delete-user',
@@ -36,7 +37,10 @@ export class DeleteUserComponent {
   showPassword: boolean = false;
   toast = inject(NgToastService);
 
-  constructor(public dialogRef: MatDialogRef<DeleteUserComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<DeleteUserComponent>,
+    private userService: UsersService
+  ) {}
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
@@ -44,22 +48,21 @@ export class DeleteUserComponent {
 
   onConfirm(): void {
     if (this.password) {
-      // TODO: descomentar essa parte depois de implementar o endpoint
-      // this.userService.deleteUser(this.password).subscribe({
-      //   next: () => {
-      //     this.toast.success(
-      //       'Seu perfil foi excluído com sucesso',
-      //       'Ação realizada!'
-      //     );
-      this.dialogRef.close(true);
-      //   },
-      //   error: () => {
-      //     this.toast.warning(
-      //       'Não foi possível seguir com a exclusão do perfil',
-      //       'Erro'
-      //     );
-      //   },
-      // });
+      this.userService.deleteUser(this.password).subscribe({
+        next: () => {
+          this.toast.success(
+            'Seu perfil foi excluído com sucesso',
+            'Ação realizada!'
+          );
+          this.dialogRef.close(true);
+        },
+        error: () => {
+          this.toast.warning(
+            'Não foi possível seguir com a exclusão do perfil',
+            'Erro'
+          );
+        },
+      });
     }
   }
 }
