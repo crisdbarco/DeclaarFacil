@@ -4,14 +4,16 @@
     <span class="toolbar-title"> DeclaraFácil</span>
   </div>
   <ng-container *ngIf="username">
-    <span class="toolbar-user">
-      {{ username }}
-    </span>
-    <mat-icon
-      aria-hidden="true"
-      aria-label=""
-      fontIcon="person"
-      class="toolbar-user-icon"
-    ></mat-icon>
+    <a [routerLink]="['/profile']" class="toolbar-link">
+      <span class="toolbar-user">
+        {{ username }}
+      </span>
+      <mat-icon
+        aria-hidden="true"
+        aria-label=""
+        fontIcon="person"
+        class="toolbar-user-icon"
+      ></mat-icon>
+    </a>
   </ng-container>
 </mat-toolbar>

@@ -30,7 +30,6 @@ export class SummaryComponent {
     this.requestsService.getRequestsWithDeclarations().subscribe({
       next: (data) => {
         this.dataSource = data;
-        console.log(this.dataSource);
       },
       error: () => {
         this.toast.danger(

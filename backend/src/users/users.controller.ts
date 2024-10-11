@@ -72,7 +72,7 @@ export class UsersController {
     description:
       'Permite que o usuário autenticado desative sua conta, inativando-a no sistema. Exige a senha para confirmação.',
   })
-  @ApiBody( {type: DeleteAccountDto} )
+  @ApiBody({ type: DeleteAccountDto })
   @ApiBearerAuth('access-token')
   @Delete('inactivate')
   async deactivateUser(

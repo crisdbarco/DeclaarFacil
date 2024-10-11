@@ -36,3 +36,7 @@ mat-toolbar {
   color: #fff;
   margin-left: 12px;
 }
+
+.toolbar-link {
+  display: contents;
+}

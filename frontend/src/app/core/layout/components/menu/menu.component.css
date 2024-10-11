@@ -24,6 +24,7 @@ mat-expansion-panel {
 }
 
 mat-list-item a {
+  /* display: block; */
   text-decoration: none;
   color: #007bff;
   cursor: pointer;
@@ -57,4 +58,8 @@ mat-expansion-panel-header {
 .mat-drawer-content {
   width: 100%;
   min-height: calc(100vh - 80px - 66px);
+}
+
+.align-item {
+  display: flex;
 }
