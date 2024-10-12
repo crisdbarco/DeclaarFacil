@@ -14,7 +14,6 @@ h1 {
   flex-wrap: wrap;
   justify-content: center; /* Centraliza os campos no container */
   gap: 20px; /* Espaço entre os campos */
-  max-width: 1000px; /* Limita a largura total das colunas */
   padding-top: 40px;
 }
 

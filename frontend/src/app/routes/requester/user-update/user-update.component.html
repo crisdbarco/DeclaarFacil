@@ -16,6 +16,7 @@
     [formGroup]="updateForm"
     (ngSubmit)="onSubmit()"
     autocomplete="off"
+    class="update-form"
   >
     <!-- Campos do formulário -->
     <div class="update-form">
@@ -118,17 +119,16 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!-- Botão de submit com loader -->
-      <button
-        mat-flat-button
-        color="primary"
-        type="submit"
-        [disabled]="isLoading || updateForm.invalid"
-      >
-        <ng-container *ngIf="isLoading">Salvando...</ng-container>
-        <ng-container *ngIf="!isLoading">Salvar</ng-container>
-      </button>
     </div>
+    <!-- Botão de submit com loader -->
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="isLoading || updateForm.invalid"
+    >
+      <ng-container *ngIf="isLoading">Salvando...</ng-container>
+      <ng-container *ngIf="!isLoading">Salvar</ng-container>
+    </button>
   </form>
 </main>

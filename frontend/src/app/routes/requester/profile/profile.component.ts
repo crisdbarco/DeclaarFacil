@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CpfPipe } from '../../../core/pipes/cpf.pipe';
 import { RgPipe } from '../../../core/pipes/rg.pipe';
 import { CepPipe } from '../../../core/pipes/cep.pipe';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -66,6 +67,7 @@ export class ProfileComponent implements OnInit {
   ];
   errorMessage: string | null = null;
   dialog = inject(MatDialog);
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -98,7 +100,7 @@ export class ProfileComponent implements OnInit {
   async loadUserData() {
     try {
       this.isLoading = true;
-      const response = await axios.get('http://localhost:3000/users', {
+      const response = await axios.get(`${this.apiUrl}/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

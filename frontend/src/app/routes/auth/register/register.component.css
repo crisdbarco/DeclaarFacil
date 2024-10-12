@@ -19,7 +19,6 @@
       margin-bottom: 12px;
       flex: 1 1 45%;
     }
-
   }
 
   button {
@@ -35,5 +34,14 @@
     padding: 12px;
     max-width: 420px;
     margin: 0 auto 24px;
+  }
+
+  .pos-link {
+    display: block;
+
+    a {
+      display: flex;
+      color: var(--sys-primary);
+    }
   }
 }

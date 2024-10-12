@@ -17,6 +17,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { NgxMaskDirective } from 'ngx-mask';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-update',
@@ -68,6 +69,7 @@ export class UserUpdateComponent implements OnInit {
   errorMessage: string | null = null;
   toast = inject(NgToastService);
   private isDataLoaded: boolean = false;
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -126,7 +128,7 @@ export class UserUpdateComponent implements OnInit {
   async loadUserData() {
     try {
       this.isLoading = true;
-      const response = await axios.get('http://localhost:3000/users', {
+      const response = await axios.get(`${this.apiUrl}/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -165,7 +167,7 @@ export class UserUpdateComponent implements OnInit {
 
       const updatedData = this.updateForm.value;
 
-      await axios.put('http://localhost:3000/users/', updatedData, {
+      await axios.put(`${this.apiUrl}/users/`, updatedData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

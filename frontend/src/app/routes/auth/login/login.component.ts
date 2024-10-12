@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../shared/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private authService: AuthService,
@@ -47,7 +49,7 @@ export class LoginComponent {
   async onSubmit() {
     if (this.loginForm.valid) {
       try {
-        const response = await axios.post('http://localhost:3000/auth/login', {
+        const response = await axios.post(`${this.apiUrl}/auth/login`, {
           email: this.loginForm.value.email,
           password: this.loginForm.value.password,
         });

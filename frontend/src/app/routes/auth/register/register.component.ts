@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import axios from 'axios';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { NgxMaskDirective } from 'ngx-mask';
+import { environment } from '../../../../environments/environment';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +24,8 @@ import { NgxMaskDirective } from 'ngx-mask';
     ReactiveFormsModule,
     CommonModule,
     NgxMaskDirective,
+    MatIconModule,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -29,6 +33,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
+  private apiUrl = environment.apiUrl;
 
   states: string[] = [
     'AC',
@@ -148,7 +153,7 @@ export class RegisterComponent {
     const formData = this.registerForm.value;
     if (this.registerForm.valid) {
       try {
-        await axios.post('http://localhost:3000/users', formData);
+        await axios.post(`${this.apiUrl}/users`, formData);
         this.router.navigate(['/success']);
       } catch (error) {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';
