@@ -17,10 +17,17 @@
       margin-bottom: 12px;
     }
 
-    button {
+    .button-flat {
       border-radius: 10px;
       min-width: 120px;
       margin-bottom: 24px;
+    }
+    .icon-button {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 8px;
     }
   }
 
