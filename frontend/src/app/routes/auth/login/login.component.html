@@ -20,10 +20,19 @@
       <input
         matInput
         formControlName="password"
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
         placeholder="Insira sua senha"
         autocomplete="off"
       />
+      <button
+        mat-icon-button
+        type="button"
+        (click)="togglePasswordVisibility()"
+      >
+        <mat-icon>{{
+          showPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
     </mat-form-field>
 
     <button mat-flat-button color="primary" type="submit">Entrar</button>
