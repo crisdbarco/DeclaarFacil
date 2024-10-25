@@ -20,13 +20,23 @@
       <input
         matInput
         formControlName="password"
-        type="password"
+        [type]="showPassword ? 'text' : 'password'"
         placeholder="Insira sua senha"
         autocomplete="off"
       />
+      <button
+        mat-icon-button
+        type="button"
+        class="icon-button"
+        (click)="togglePasswordVisibility()"
+      >
+        <mat-icon>{{
+          showPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
     </mat-form-field>
 
-    <button mat-flat-button color="primary" type="submit">Entrar</button>
+    <button class="button-flat" mat-flat-button color="primary" type="submit">Entrar</button>
   </form>
   <!-- <p>Para lembrar sua senha, <a routerLink="/">clique aqui.</a></p> -->
   <p>

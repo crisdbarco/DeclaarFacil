@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../shared/services/auth.service';
 import { environment } from '../../../../environments/environment';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ import { environment } from '../../../../environments/environment';
     CommonModule,
     MatButtonModule,
     RouterLink,
+    MatIconModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
@@ -33,6 +35,7 @@ import { environment } from '../../../../environments/environment';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  showPassword: boolean = false;
   private apiUrl = environment.apiUrl;
 
   constructor(
@@ -44,6 +47,10 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   async onSubmit() {
