@@ -113,21 +113,44 @@
 
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Senha</mat-label>
+        <div class="password-input">
+          <input
+            matInput
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Insira sua senha"
+          />
+          <button
+            mat-icon-button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            class="password-toggle-button"
+          >
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Confirme sua Senha</mat-label>
         <input
           matInput
-          formControlName="password"
-          type="password"
-          placeholder="Insira sua senha"
+          formControlName="confirmPassword"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Confirme sua senha"
         />
+        <mat-error *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+          Senhas não conferem
+        </mat-error>
       </mat-form-field>
     </div>
 
     <button mat-flat-button color="primary" type="submit">Criar Conta</button>
 
     <div class="pos-link">
-      <a routerLink="/login"
-        ><mat-icon alt="">arrow_back</mat-icon> Voltar para login</a
-      >
+      <a routerLink="/login">
+        <mat-icon alt="">arrow_back</mat-icon> Voltar para login
+      </a>
     </div>
   </form>
 </main>

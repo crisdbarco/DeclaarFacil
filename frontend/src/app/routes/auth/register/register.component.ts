@@ -34,6 +34,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   private apiUrl = environment.apiUrl;
+  showPassword: boolean = false; // Para controlar a visibilidade de senha
 
   states: string[] = [
     'AC',
@@ -84,6 +85,7 @@ export class RegisterComponent {
       city: [{ value: '', disabled: true }, Validators.required],
       state: [{ value: '', disabled: true }, Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required], // Confirmação de senha
       is_admin: [false],
     });
   }
@@ -145,7 +147,23 @@ export class RegisterComponent {
     this.registerForm.get('state')?.disable();
   }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  passwordsMatch(): boolean {
+    return (
+      this.registerForm.get('password')?.value ===
+      this.registerForm.get('confirmPassword')?.value
+    );
+  }
+
   async onSubmit() {
+    if (!this.passwordsMatch()) {
+      this.errorMessage = 'Senhas não conferem.';
+      return;
+    }
+
     this.removeMask('cpf');
     this.removeMask('rg');
     this.removeMask('postal_code');
