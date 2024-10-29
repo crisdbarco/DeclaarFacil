@@ -133,13 +133,25 @@
 
       <mat-form-field class="form-field" appearance="fill">
         <mat-label>Confirme sua Senha</mat-label>
-        <input
-          matInput
-          formControlName="confirmPassword"
-          [type]="showPassword ? 'text' : 'password'"
-          placeholder="Confirme sua senha"
-        />
-        <mat-error *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+        <div class="password-input">
+          <input
+            matInput
+            formControlName="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Confirme sua senha"
+          />
+          <button
+            mat-icon-button
+            type="button"
+            (click)="toggleConfirmPasswordVisibility()"
+            class="password-toggle-button"
+          >
+            <mat-icon>{{ showConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        <mat-error
+          *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched"
+        >
           Senhas não conferem
         </mat-error>
       </mat-form-field>

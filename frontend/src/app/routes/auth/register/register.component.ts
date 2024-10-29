@@ -34,7 +34,8 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   private apiUrl = environment.apiUrl;
-  showPassword: boolean = false; // Para controlar a visibilidade de senha
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   states: string[] = [
     'AC',
@@ -85,21 +86,26 @@ export class RegisterComponent {
       city: [{ value: '', disabled: true }, Validators.required],
       state: [{ value: '', disabled: true }, Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required], // Confirmação de senha
+      confirmPassword: ['', Validators.required],
       is_admin: [false],
-    });
+    }, { validators: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
     this.registerForm.get('postal_code')?.valueChanges.subscribe((value) => {
       const cleanedValue = value.replace(/\D/g, '');
-
       if (cleanedValue && cleanedValue.length === 8) {
         this.fetchAddressData(cleanedValue);
       } else {
         this.disableAddressFields();
       }
     });
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
   removeMask(fieldName: string): void {
@@ -112,7 +118,6 @@ export class RegisterComponent {
 
   private fetchAddressData(postalCode: string): void {
     this.enableAddressFields();
-
     this.http.get(`https://opencep.com/v1/${postalCode}`).subscribe({
       next: (response: any) => {
         this.registerForm.patchValue({
@@ -151,16 +156,15 @@ export class RegisterComponent {
     this.showPassword = !this.showPassword;
   }
 
-  passwordsMatch(): boolean {
-    return (
-      this.registerForm.get('password')?.value ===
-      this.registerForm.get('confirmPassword')?.value
-    );
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   async onSubmit() {
-    if (!this.passwordsMatch()) {
-      this.errorMessage = 'Senhas não conferem.';
+    if (this.registerForm.invalid) {
+      this.errorMessage = this.registerForm.hasError('passwordMismatch')
+        ? 'Senhas não conferem.'
+        : 'Preencha todos os campos obrigatórios.';
       return;
     }
 
@@ -177,8 +181,6 @@ export class RegisterComponent {
         this.errorMessage = 'Erro ao criar conta. Tente novamente.';
         console.error('Erro ao criar usuário:', error);
       }
-    } else {
-      this.errorMessage = 'Preencha todos os campos obrigatórios.';
     }
   }
 }
